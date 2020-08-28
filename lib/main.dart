@@ -1,3 +1,4 @@
+
 import 'package:delivery_food/locator.dart';
 import 'package:delivery_food/screens/admin_product_screen.dart';
 import 'package:delivery_food/screens/mange_products_screen.dart';
@@ -10,6 +11,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   setUpLocator();
+
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+//  setUpLocator();
   runApp(FoodDelivery());
 }
 
@@ -21,6 +26,7 @@ class FoodDelivery extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => locator<ProductProvider>(),
         ),
+
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -42,10 +48,11 @@ class FoodDelivery extends StatelessWidget {
         // home: HomePage(),
         initialRoute: AdminProductScreen.routeId,
         routes: {
-          MangeProductsScreen.routeId: (context) => MangeProductsScreen(),
-          AdminProductScreen.routeId:(context) =>AdminProductScreen(),
-        },
-      ),
+         MangeProductsScreen.routeId: (context) => MangeProductsScreen(),
+           AdminProductScreen.routeId:(context) =>AdminProductScreen(),
+          }
+
+      )
     );
   }
 }
