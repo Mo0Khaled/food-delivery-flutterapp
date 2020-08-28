@@ -24,7 +24,7 @@ class Api{
     return ref.doc(id).get();
   }
   // delete one item
-  Future<DocumentSnapshot> removeDoc(String id){
+  Future<void> removeDoc(String id){
     return ref.doc(id).delete();
   }
   // to add new data on fire store
