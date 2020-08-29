@@ -1,10 +1,10 @@
+import 'package:delivery_food/screens/products_items_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
 import '../models/user.dart';
-import '../screens/home.dart';
 enum AuthenticationMode{
   Signup,
   LogIn
@@ -85,7 +85,7 @@ void handleObsecure(){
       await _auth.signInWithEmailAndPassword(email: email, password: password);
     notifyListeners();
     if(_auth.currentUser.uid != null){
-      Navigator.of(context).pushNamed(HomePage.routeName);
+      Navigator.of(context).pushNamed(ProductsItemsScreen.routeId);
     }
   }catch(error){
     print(error);

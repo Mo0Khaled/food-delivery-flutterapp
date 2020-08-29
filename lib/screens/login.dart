@@ -1,8 +1,7 @@
-import 'package:delivery_food/screens/home.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../providers/authinticate_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
+import 'products_items_screen.dart';
 
 class LogIn extends StatefulWidget {
   static const String  nameRoute="log-in";
@@ -54,7 +53,7 @@ class _LogInState extends State<LogIn> {
                       color: Colors.black,
                       onPressed: ()async{
                        await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
-                       Navigator.of(context).pushNamed(HomePage.routeName);
+                       Navigator.of(context).pushNamed(ProductsItemsScreen.routeId);
                       },
                     )
                   ],

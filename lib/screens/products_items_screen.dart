@@ -5,16 +5,13 @@ import 'package:delivery_food/widgets/productCard.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => _HomePageState();
-}
+class ProductsItemsScreen extends StatelessWidget {
+  static const routeId = 'products';
 
-class _HomePageState extends State<HomePage> {
-  List<ProductModel> products;
   @override
   Widget build(BuildContext context) {
     final productProvider = Provider.of<ProductProvider>(context);
+    List<ProductModel> products;
     return Scaffold(
       appBar: AppBar(),
       body: Container(
