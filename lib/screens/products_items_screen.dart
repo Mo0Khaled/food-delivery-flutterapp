@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delivery_food/models/product_model.dart';
 import 'package:delivery_food/providers/product_provider.dart';
-import 'package:delivery_food/widgets/productCard.dart';
+import 'file:///F:/work/fluter/delivery_food/lib/widgets/product/productCard.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

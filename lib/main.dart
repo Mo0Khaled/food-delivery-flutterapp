@@ -5,8 +5,8 @@ import 'package:delivery_food/screens/home_page.dart';
 import 'package:delivery_food/screens/products_items_screen.dart';
 import 'package:delivery_food/screens/login.dart';
 import 'package:delivery_food/screens/mange_products_screen.dart';
-import 'package:delivery_food/screens/on_boarding_screen.dart';
 import 'package:delivery_food/screens/sign_up_screen.dart';
+// import 'package:delivery_food/widgets/product/product_details.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -56,12 +56,13 @@ class FoodDelivery extends StatelessWidget {
           // home: auth.isUserHere ? ProductsItemsScreen() :OnBoardingScreen(),
           initialRoute: HomePage.routeId,
           routes: {
-            HomePage.routeId:(context)=>HomePage(),
+            HomePage.routeId:(context) =>HomePage(),
             MangeProductsScreen.routeId: (context) => MangeProductsScreen(),
             AdminProductScreen.routeId: (context) => AdminProductScreen(),
             SignupScreen.nameRoute: (context) => SignupScreen(),
             LogIn.nameRoute: (context) => LogIn(),
             ProductsItemsScreen.routeId:(context)=>ProductsItemsScreen(),
+            // ProductDetails.routeId:(context)=>ProductDetails(),
           },
         ),
       ),
