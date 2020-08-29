@@ -1,6 +1,5 @@
 import 'package:delivery_food/models/user.dart';
 import 'package:delivery_food/providers/authinticate_provider.dart';
-import 'package:delivery_food/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+//import 'package:flutter_svg/flutter_svg.dart';
 
 
 
@@ -7,7 +7,7 @@ Widget singlePage(String title,String imgName,String description,BuildContext ct
   return Column(
     crossAxisAlignment: CrossAxisAlignment.center,
     children: <Widget>[
-//      SvgPicture.asset(imgName,width:MediaQuery.of(ctx).size.width*0.7,semanticsLabel: "hehe",height:MediaQuery.of(ctx).size.height*0.299 ,),
+      Image.asset(imgName,width:MediaQuery.of(ctx).size.width*0.7,height:MediaQuery.of(ctx).size.height*0.299 ,),
       SizedBox(height: 30.0,),
       Text(title,style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 35.0,
           fontFamily: "HindSiliguri"),),
