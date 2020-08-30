@@ -2,12 +2,14 @@
 import 'package:flutter/material.dart';
 class ProductDetails extends StatelessWidget {
   static const routeId = '/product-details';
+  final String id;
   final String title;
   final String imgUrl;
   final String description;
   final double calories;
 
   ProductDetails({
+    @required this.id,
     @required this.title,
     @required this.imgUrl,
     @required this.description,
@@ -41,12 +43,15 @@ class ProductDetails extends StatelessWidget {
                 alignment: Alignment.center,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: Image.network(
-                    imgUrl,
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    height: MediaQuery.of(context).size.height * 0.25,
-                    fit: BoxFit.contain,
-                    alignment: Alignment.center,
+                  child: Hero(
+                    tag: id,
+                    child: Image.network(
+                      imgUrl,
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      height: MediaQuery.of(context).size.height * 0.25,
+                      fit: BoxFit.contain,
+                      alignment: Alignment.center,
+                    ),
                   ),
                 ),
               ),

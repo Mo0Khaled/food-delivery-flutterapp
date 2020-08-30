@@ -5,7 +5,8 @@ import 'package:provider/provider.dart';
 import '../providers/restaurant_provider.dart';
 
 class ManageRestaurants extends StatefulWidget {
-  static const String nameRoute = "manage-rest";
+  static const String routeId = "manage-rest";
+
   @override
   _ManageRestaurantsState createState() => _ManageRestaurantsState();
 }
@@ -19,7 +20,7 @@ class _ManageRestaurantsState extends State<ManageRestaurants> {
   final FocusNode categoryNode = FocusNode();
 
   Map<String, dynamic> restaurantFields = {
-    kRestaurantRank: 0,
+    kRestaurantRank: 0.toString(),
     kRestaurantDesiredOrders: "",
     kRestaurantImgUrl: "",
     kRestaurantDeliveryTime: "",
@@ -27,13 +28,13 @@ class _ManageRestaurantsState extends State<ManageRestaurants> {
   };
 
   RestaurantModel rModel = RestaurantModel(
-      id: null,
-      category: "",
-      deliveryTime: "",
-      desiredOrders: "",
-      imgUrl: "",
-      rank: 0);
-
+    id: null,
+    category: "",
+    deliveryTime: "",
+    desiredOrders: "",
+    imgUrl: "",
+    rank: 0,
+  );
   // final TextEditingController _imgController = TextEditingController();
 
   @override
@@ -47,11 +48,11 @@ class _ManageRestaurantsState extends State<ManageRestaurants> {
   }
 
   bool _isInit = true;
+
   @override
   void didChangeDependencies() {
     if (_isInit) {
       final restaurantId = ModalRoute.of(context).settings.arguments as String;
-      print("hhhh $restaurantId");
       if (restaurantId != null) {
         rModel =
             Provider.of<RestaurantProvider>(context).findById(restaurantId);

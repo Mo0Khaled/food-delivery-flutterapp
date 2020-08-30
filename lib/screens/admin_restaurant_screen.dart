@@ -36,7 +36,7 @@ class AdminRestaurantScreen extends StatelessWidget {
                              width: MediaQuery.of(context).size.width*0.3,
                            child: Row(
                              children: <Widget>[
-                           IconButton(icon: Icon(Icons.edit,color: Colors.black,),onPressed: ()=>Navigator.pushNamed(context, ManageRestaurants.nameRoute,arguments: rProvider.restaurantsList[i].id)),
+                           IconButton(icon: Icon(Icons.edit,color: Colors.black,),onPressed: ()=>Navigator.pushNamed(context, ManageRestaurants.routeId,arguments: rProvider.restaurantsList[i].id)),
                            IconButton(icon: Icon(Icons.delete,color: Colors.red,),onPressed: ()=>rProvider.deleteRestaurant(rProvider.restaurantsList[i].id),
                            )],
                            ),

@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'providers/product_provider.dart';
 import 'providers/authinticate_provider.dart';
+import 'screens/manage_restaurants_screen.dart';
 import 'screens/sign_up_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -20,16 +21,18 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   setUpLocator();
-  Widget home = RestaurantsOverview();
-  if (FirebaseAuth.instance.currentUser.uid == null) {
-    home = SignupScreen();
-  }
-runApp(FoodDelivery(home));
+  // Widget home = RestaurantsOverview();
+  // if (FirebaseAuth.instance.currentUser.uid == null) {
+  //   home = SignupScreen();
+  // }else{
+  // }
+  runApp(FoodDelivery());
+
 }
 
 class FoodDelivery extends StatelessWidget {
- final Widget home;
-  FoodDelivery(this.home);
+ // final Widget home;
+ //  FoodDelivery(this.home);
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -62,7 +65,7 @@ class FoodDelivery extends StatelessWidget {
               iconTheme: IconThemeData(color: Colors.black),
             ),
           ),
-          // home: auth.isUserHere ? ProductsItemsScreen() :OnBoardingScreen(),
+          // home: ManageRestaurants(),
           initialRoute: HomePage.routeId,
           routes: {
             HomePage.routeId:(context) =>HomePage(),

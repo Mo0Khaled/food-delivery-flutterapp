@@ -10,6 +10,7 @@ class RestaurantsOverview extends StatelessWidget {
   Future<List<RestaurantModel>> refresh(BuildContext context) async {
     await Provider.of<RestaurantProvider>(context, listen: false).fetch();
   }
+
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<RestaurantProvider>(context);
@@ -29,7 +30,8 @@ class RestaurantsOverview extends StatelessWidget {
                         itemCount: 3,
                         itemBuilder: (context, i) => RestaurantContainerUi(
                             title: provider.restaurantsList[i].category,
-                            rank: provider.restaurantsList[i].rank)),
+                            rank: provider.restaurantsList[i].rank),
+                      ),
           ),
         ),
       ),

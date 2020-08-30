@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'products_items_screen.dart';
-
 class LogIn extends StatefulWidget {
   static const String  nameRoute="log-in";
   @override
   _LogInState createState() => _LogInState();
 }
-
 class _LogInState extends State<LogIn> {
   String email = "";
   String password = "";
@@ -27,7 +24,6 @@ class _LogInState extends State<LogIn> {
                 child: Column(
                   children: <Widget>[
                    TextFormField(
-
                      onSaved: (_){
                        setState(() {
                          email=_emailController.text;
@@ -56,7 +52,7 @@ class _LogInState extends State<LogIn> {
                        await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
                        Navigator.of(context).pushNamed(ProductsItemsScreen.routeId);
                       },
-                    )
+                    ),
                   ],
                 ),
               ),

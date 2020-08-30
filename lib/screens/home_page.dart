@@ -2,8 +2,11 @@ import 'package:delivery_food/screens/admin_product_screen.dart';
 import 'package:delivery_food/screens/mange_products_screen.dart';
 import 'package:delivery_food/screens/on_boarding_screen.dart';
 import 'package:delivery_food/screens/products_items_screen.dart';
+import 'package:delivery_food/screens/restaurants_overview_screen.dart';
 import 'file:///F:/work/fluter/delivery_food/lib/widgets/bottom_navy_bar/bottom_navy_widget.dart';
 import 'package:flutter/material.dart';
+
+import 'manage_restaurants_screen.dart';
 
 class HomePage extends StatefulWidget {
   static const  routeId ="home-page";
@@ -42,7 +45,7 @@ class _HomePageState extends State<HomePage> {
         onPageChanged: changePage,
         children: [
           ProductsItemsScreen(),
-          OnBoardingScreen(),
+          RestaurantsOverview(),
           MangeProductsScreen(),
           AdminProductScreen(),
         ],
