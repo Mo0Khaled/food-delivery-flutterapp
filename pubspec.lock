@@ -66,28 +66,10 @@ packages:
     version: "1.14.12"
   convert:
     dependency: transitive
-<<<<<<< HEAD
-=======
     description:
       name: convert
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.1"
-  crypto:
-    dependency: transitive
-    description:
-      name: crypto
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.1.4"
-  cupertino_icons:
-    dependency: "direct main"
->>>>>>> making-auth
-    description:
-      name: convert
-      url: "https://pub.dartlang.org"
-    source: hosted
-<<<<<<< HEAD
     version: "2.1.1"
   crypto:
     dependency: transitive
@@ -103,8 +85,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.3"
-=======
-    version: "0.1.3"
   dots_indicator:
     dependency: "direct main"
     description:
@@ -112,7 +92,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.0"
->>>>>>> making-auth
   firebase:
     dependency: transitive
     description:
@@ -167,13 +146,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_svg:
-    dependency: "direct main"
-    description:
-      name: flutter_svg
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.17.4"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -191,6 +163,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "8.8.1"
+  get_it:
+    dependency: "direct main"
+    description:
+      name: get_it
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.4"
   http:
     dependency: "direct main"
     description:
@@ -254,23 +233,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.6.4"
-<<<<<<< HEAD
-=======
-  path_drawing:
-    dependency: transitive
-    description:
-      name: path_drawing
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.4.1+1"
-  path_parsing:
-    dependency: transitive
-    description:
-      name: path_parsing
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.4"
->>>>>>> making-auth
   pedantic:
     dependency: transitive
     description:
