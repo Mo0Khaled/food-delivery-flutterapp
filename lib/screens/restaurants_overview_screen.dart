@@ -29,8 +29,9 @@ class RestaurantsOverview extends StatelessWidget {
                     : ListView.builder(
                         itemCount: 3,
                         itemBuilder: (context, i) => RestaurantContainerUi(
-                            title: provider.restaurantsList[i].category,
-                            rank: provider.restaurantsList[i].rank),
+                          title: provider.restaurantsList[i].category,
+                          rank: provider.restaurantsList[i].rank,
+                        ),
                       ),
           ),
         ),

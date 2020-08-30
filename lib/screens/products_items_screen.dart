@@ -25,7 +25,7 @@ class ProductsItemsScreen extends StatelessWidget {
                   itemBuilder: (context,index) => ProductCard(productDetails: products[index]),
               );
             }else{
-              return Text("Error");
+              return Center(child: CircularProgressIndicator(),);
             }
           },
         ),
