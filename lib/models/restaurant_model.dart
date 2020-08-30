@@ -1,4 +1,3 @@
-import 'package:delivery_food/models/product_model.dart';
 
 class RestaurantModel {
   final String id;

@@ -1,52 +1,53 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:delivery_food/models/product_model.dart';
-import 'package:delivery_food/providers/product_provider.dart';
-import 'package:delivery_food/screens/manage_restaurants_screen.dart';
-import 'package:delivery_food/widgets/productCard.dart';
+import 'package:delivery_food/screens/admin_product_screen.dart';
+import 'package:delivery_food/screens/mange_products_screen.dart';
+import 'package:delivery_food/screens/on_boarding_screen.dart';
+import 'package:delivery_food/screens/products_items_screen.dart';
+import 'file:///F:/work/fluter/delivery_food/lib/widgets/bottom_navy_bar/bottom_navy_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
-  static const String nameRoute ="home-page";
+  static const  routeId ="home-page";
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  List<ProductModel> products;
+  int currentIndex  = 0;
+  PageController _pageController;
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController();
+  }
+
+  changePage(int index){
+    setState(() => currentIndex = index);
+  }
+
+  changeItem(int index){
+    setState(() => currentIndex = index);
+    _pageController.jumpToPage(index);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
-    final productProvider = Provider.of<ProductProvider>(context);
     return Scaffold(
-      appBar: AppBar(
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.arrow_forward),
-            onPressed: (){
-              Navigator.push(context, MaterialPageRoute(
-                builder: (context)=>ManageRestaurants()
-              ));
-            },
-          )
+      body: PageView(
+        controller: _pageController,
+        onPageChanged: changePage,
+        children: [
+          ProductsItemsScreen(),
+          OnBoardingScreen(),
+          MangeProductsScreen(),
+          AdminProductScreen(),
         ],
       ),
-      body: Container(
-        child: StreamBuilder(
-          stream: productProvider.fetchProductsAsStream(),
-          builder: (context,AsyncSnapshot<QuerySnapshot> snapshot){
-            if(snapshot.hasData){
-              products = snapshot.data.docs.map((doc) => ProductModel.fromMap(doc.data(), doc.id)).toList();
-              return ListView.builder(
-                  itemCount: products.length,
-                  itemBuilder: (context,index) => ProductCard(productDetails: products[index]),
-              );
-            }else{
-              return Text("Error");
-            }
-          },
-        ),
-      ),
+      bottomNavigationBar: BottomNavyBarWidget(index: currentIndex,changeItem: changeItem,),
     );
   }
 }
-

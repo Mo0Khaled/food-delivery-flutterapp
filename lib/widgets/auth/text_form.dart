@@ -50,7 +50,7 @@ class CustomizedTextFormField extends StatelessWidget {
               suffixIcon:IconButton(
                 icon:isObsecure?
                 auth.isObsecure? Icon(Icons.visibility_off):Icon(Icons.visibility):Icon(Icons.email,color: Colors.white,),
-                onPressed: ()=>auth.handleObsecure(),
+                onPressed: ()=> auth.handleObsecure(),
               ),
               border: InputBorder.none,
               labelText: title,

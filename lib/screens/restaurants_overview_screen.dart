@@ -6,32 +6,33 @@ import 'package:provider/provider.dart';
 import '../providers/restaurant_provider.dart';
 
 class RestaurantsOverview extends StatelessWidget {
-
-  Future<List<RestaurantModel>> refresh(BuildContext context) async{
-    await Provider.of<RestaurantProvider>(context,listen: false).fetch();
+  // ignore: missing_return
+  Future<List<RestaurantModel>> refresh(BuildContext context) async {
+    await Provider.of<RestaurantProvider>(context, listen: false).fetch();
   }
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<RestaurantProvider>(context);
     return Scaffold(
-        appBar: AppBar(),
-        body: Container(
-          child: RefreshIndicator(
-            onRefresh:()=> refresh(context) ,
-            child: FutureBuilder<List<RestaurantModel>>(
+      appBar: AppBar(),
+      body: Container(
+        child: RefreshIndicator(
+          onRefresh: () => refresh(context),
+          child: FutureBuilder<List<RestaurantModel>>(
             future: refresh(context),
             builder: (context, snapshot) =>
-              snapshot.connectionState == ConnectionState.waiting
-                  ? Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  : ListView.builder(
-                      itemCount: 3,
-                      itemBuilder: (context, i) => RestaurantContainerUi(
-                          title: provider.restaurantsList[i].category,
-                          rank: provider.restaurantsList[i].rank)),
+                snapshot.connectionState == ConnectionState.waiting
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : ListView.builder(
+                        itemCount: 3,
+                        itemBuilder: (context, i) => RestaurantContainerUi(
+                            title: provider.restaurantsList[i].category,
+                            rank: provider.restaurantsList[i].rank)),
           ),
-          ),
-        ));
+        ),
+      ),
+    );
   }
 }

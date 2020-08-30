@@ -34,7 +34,7 @@ class _ManageRestaurantsState extends State<ManageRestaurants> {
       imgUrl: "",
       rank: 0);
 
-  final TextEditingController _imgController = TextEditingController();
+  // final TextEditingController _imgController = TextEditingController();
 
   @override
   void dispose() {

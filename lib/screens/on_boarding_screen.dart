@@ -66,13 +66,13 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             Column(
               children: <Widget>[
                 button(context, Colors.black, "Log In", () {
-                  Navigator.of(context).pushNamed(HomePage.nameRoute);
+                  Navigator.of(context).pushNamed(HomePage.routeId);
                 }, true),
                 SizedBox(
                   height: 20.0,
                 ),
                 button(context, Colors.white, "Sign up", () {
-                  Navigator.of(context).pushNamed(HomePage.nameRoute);
+                  Navigator.of(context).pushNamed(HomePage.routeId);
                 }, false),
               ],
             ),

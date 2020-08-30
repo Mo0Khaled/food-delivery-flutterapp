@@ -1,5 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:delivery_food/constants.dart';
+
 import 'package:delivery_food/models/restaurant_model.dart';
 import 'package:delivery_food/providers/restaurant_provider.dart';
 import 'package:delivery_food/screens/manage_restaurants_screen.dart';
@@ -8,6 +7,7 @@ import 'package:provider/provider.dart';
 
 class AdminRestaurantScreen extends StatelessWidget {
 
+  // ignore: missing_return
   Future<List<RestaurantModel>> refresh(BuildContext context) async{
    await Provider.of<RestaurantProvider>(context,listen: false).fetch();
   }

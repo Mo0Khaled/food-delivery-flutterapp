@@ -1,5 +1,5 @@
+import 'package:delivery_food/screens/products_items_screen.dart';
 import 'package:delivery_food/screens/home_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +52,7 @@ class Autheticate with ChangeNotifier {
   void validateForm(BuildContext context) async {
     if (key.currentState.validate()) {
       key.currentState.save();
-      await signUp(context);
+       signUp(context);
       controlUser();
       addUserDataToDataBase();
     }
@@ -61,7 +61,7 @@ class Autheticate with ChangeNotifier {
 
   void signUp(BuildContext context) async {
     try {
-      var user = await _auth.createUserWithEmailAndPassword(
+       await _auth.createUserWithEmailAndPassword(
           email: userModel.email, password: userModel.password);
     } catch (error) {
       Scaffold.of(context).showSnackBar(SnackBar(
@@ -85,14 +85,20 @@ class Autheticate with ChangeNotifier {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
       notifyListeners();
       if (_auth.currentUser.uid != null) {
-        isUserHere = true;
-        Navigator.of(context).pushNamed(HomePage.nameRoute);
+        Navigator.of(context).pushNamed(ProductsItemsScreen.routeId);
+        notifyListeners();
+        if (_auth.currentUser.uid != null) {
+          isUserHere = true;
+          Navigator.of(context).pushNamed(HomePage.routeId);
+        }
       }
     } catch (error) {
       print(error);
-      Scaffold.of(context).showSnackBar(SnackBar(
-        content: Text("revise your inputs,please!"),
-      ));
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+          content: Text("revise your inputs,please!"),
+        ),
+      );
     }
   }
 }
