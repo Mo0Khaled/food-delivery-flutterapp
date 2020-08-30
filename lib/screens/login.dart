@@ -50,6 +50,7 @@ class _LogInState extends State<LogIn> {
                       ),
                     ),
                     FlatButton(
+                      child: Text("LogIn"),
                       color: Colors.black,
                       onPressed: ()async{
                        await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);

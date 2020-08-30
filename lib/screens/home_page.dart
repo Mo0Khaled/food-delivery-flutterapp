@@ -6,7 +6,7 @@ import 'file:///F:/work/fluter/delivery_food/lib/widgets/bottom_navy_bar/bottom_
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
-  static const routeId = '/home';
+  static const  routeId ="home-page";
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -17,7 +17,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-  _pageController = PageController();
+    _pageController = PageController();
   }
 
   changePage(int index){
@@ -31,8 +31,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void dispose() {
-  _pageController.dispose();
-      super.dispose();
+    _pageController.dispose();
+    super.dispose();
   }
   @override
   Widget build(BuildContext context) {

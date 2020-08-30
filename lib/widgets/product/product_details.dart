@@ -1,8 +1,5 @@
-import 'package:delivery_food/providers/product_provider.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
+import 'package:flutter/material.dart';
 class ProductDetails extends StatelessWidget {
   static const routeId = '/product-details';
   final String title;

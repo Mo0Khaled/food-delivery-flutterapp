@@ -1,5 +1,4 @@
-import 'package:delivery_food/screens/login.dart';
-import 'package:delivery_food/screens/sign_up_screen.dart';
+import 'package:delivery_food/screens/home_page.dart';
 import 'package:flutter/material.dart';
 import '../widgets/auth/on-boarding.dart';
 import 'package:dots_indicator/dots_indicator.dart';
@@ -17,17 +16,17 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     List<Widget> pages = [
       singlePage(
           "Food Delivery",
-          "assets/images/pic4.svg",
+          "assets/images/pic1.png",
           "the delivery man will deliver you the order on time,if the courier is late you will get the refund",
           context),
       singlePage(
           "Communication",
-          "assets/images/pic3.svg",
+          "assets/images/pic1.png",
           "During food delivery,you can communicate with the deliveryman with some kind of request",
           context),
       singlePage(
           "Food Delivery",
-          "assets/images/pic5.svg",
+          "assets/images/pic1.png",
           "the delivery man will deliver you the order on time,if the courier is late you will get the refund",
           context),
     ];
@@ -67,13 +66,13 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             Column(
               children: <Widget>[
                 button(context, Colors.black, "Log In", () {
-                  Navigator.of(context).pushNamed(SignupScreen.nameRoute);
+                  Navigator.of(context).pushNamed(HomePage.routeId);
                 }, true),
                 SizedBox(
                   height: 20.0,
                 ),
                 button(context, Colors.white, "Sign up", () {
-                  Navigator.of(context).pushNamed(LogIn.nameRoute);
+                  Navigator.of(context).pushNamed(HomePage.routeId);
                 }, false),
               ],
             ),

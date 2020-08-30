@@ -6,24 +6,30 @@ import 'package:delivery_food/screens/products_items_screen.dart';
 import 'package:delivery_food/screens/login.dart';
 import 'package:delivery_food/screens/mange_products_screen.dart';
 import 'package:delivery_food/screens/sign_up_screen.dart';
-// import 'package:delivery_food/widgets/product/product_details.dart';
+import 'package:delivery_food/providers/restaurant_provider.dart';
+import 'package:delivery_food/screens/restaurants_overview_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'providers/product_provider.dart';
+import 'providers/authinticate_provider.dart';
+import 'screens/sign_up_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   setUpLocator();
-
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-//  setUpLocator();
-  runApp(FoodDelivery());
+  Widget home = RestaurantsOverview();
+  if (FirebaseAuth.instance.currentUser.uid == null) {
+    home = SignupScreen();
+  }
+runApp(FoodDelivery(home));
 }
 
 class FoodDelivery extends StatelessWidget {
+ final Widget home;
+  FoodDelivery(this.home);
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -34,6 +40,9 @@ class FoodDelivery extends StatelessWidget {
         ChangeNotifierProvider<Autheticate>(
           create: (context) => Autheticate(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => RestaurantProvider(),
+        )
       ],
       child: Consumer<Autheticate>(
         builder:(context,auth,_) => MaterialApp(
@@ -69,3 +78,5 @@ class FoodDelivery extends StatelessWidget {
     );
   }
 }
+
+//AdminProductScreen.routeId
