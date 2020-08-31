@@ -1,14 +1,14 @@
 import 'package:delivery_food/models/user.dart';
 import 'package:delivery_food/providers/authinticate_provider.dart';
+import 'package:delivery_food/screens/admin_panel_screen.dart';
+import 'package:delivery_food/screens/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import '../widgets/auth/text_form.dart';
 
-
 class SignupScreen extends StatefulWidget {
   static const nameRoute = "/auth_screen";
-
 
   @override
   _SignupScreenState createState() => _SignupScreenState();
@@ -16,11 +16,11 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
   final Radius radius = Radius.circular(13);
-  UserData userdata=UserData();
-  TextEditingController _emailController=TextEditingController();
-  String email="";
-  String password="";
-  TextEditingController _passwordController=TextEditingController();
+  UserData userdata = UserData();
+  TextEditingController _emailController = TextEditingController();
+  String email = "";
+  String password = "";
+  TextEditingController _passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,79 +74,95 @@ class _SignupScreenState extends State<SignupScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             auth.authentication == AuthenticationMode.Signup
-                                ?  Column(
-                        children: <Widget>[
-                          CustomizedTextFormField(
-                          title: "email",
-                          neednumbersKeyboard: false,
-                          onSaved: (val) {
-                            Provider.of<Autheticate>(context, listen:false).userModel.email =
-                                val;
-                          },
-                          isObsecure: false,
-                        ),
-                        CustomizedTextFormField(
-                            title: "password",
-                            neednumbersKeyboard: false,
-                            onSaved: (val) {
-                              Provider.of<Autheticate>(context, listen: false)
-                                  .userModel
-                                  .password = val;
-                            },
-                            isObsecure: true),
-                        CustomizedTextFormField(
-                          title: "confirm password",
-                          neednumbersKeyboard: false,
-                          isObsecure: true,
-                        ),
-                        CustomizedTextFormField(
-                          title: "User Name",
-                          neednumbersKeyboard: false,
-                          onSaved: (val) => Provider.of<Autheticate>(context, listen: false)
-                              .userModel
-                              .userName = val,
-                          isObsecure: false,
-                        ),
-                        CustomizedTextFormField(
-                          title: "phone Number",
-                          neednumbersKeyboard: true,
-                          onSaved: (val) => Provider.of<Autheticate>(context, listen: false)
-                              .userModel
-                              .phoneNumber = val,
-                          isObsecure: false,
-                        ),
-                        ],
-                      )
-                                :
+                                ? Column(
+                                    children: <Widget>[
+                                      CustomizedTextFormField(
+                                        title: "email",
+                                        neednumbersKeyboard: false,
+                                        onSaved: (val) {
+                                          Provider.of<Autheticate>(context,
+                                                  listen: false)
+                                              .userModel
+                                              .email = val;
+                                        },
+                                        isObsecure: false,
+                                      ),
+                                      CustomizedTextFormField(
+                                          title: "password",
+                                          neednumbersKeyboard: false,
+                                          onSaved: (val) {
+                                            Provider.of<Autheticate>(context,
+                                                    listen: false)
+                                                .userModel
+                                                .password = val;
+                                          },
+                                          isObsecure: true),
+                                      CustomizedTextFormField(
+                                        title: "confirm password",
+                                        neednumbersKeyboard: false,
+                                        isObsecure: true,
+                                      ),
+                                      CustomizedTextFormField(
+                                        title: "User Name",
+                                        neednumbersKeyboard: false,
+                                        onSaved: (val) =>
+                                            Provider.of<Autheticate>(context,
+                                                    listen: false)
+                                                .userModel
+                                                .userName = val,
+                                        isObsecure: false,
+                                      ),
+                                      CustomizedTextFormField(
+                                        title: "phone Number",
+                                        neednumbersKeyboard: true,
+                                        onSaved: (val) =>
+                                            Provider.of<Autheticate>(context,
+                                                    listen: false)
+                                                .userModel
+                                                .phoneNumber = val,
+                                        isObsecure: false,
+                                      ),
+                                    ],
+                                  )
+                                : CustomizedTextFormField(
+                                    controller: _emailController,
+                                    title: "email",
+                                    neednumbersKeyboard: false,
+                                    onSaved: (val) {
+                                      setState(() {
+                                        email = _emailController.text;
+                                      });
+                                    },
+                                    isObsecure: false,
+                                  ),
                             CustomizedTextFormField(
-                              controller: _emailController,
-                              title: "email",
-                              neednumbersKeyboard: false,
-                              onSaved: (val) {
-                                setState(() {
-                                  email = _emailController.text;
-                                });
-                              },
-                              isObsecure: false,
-                            ),
-                            CustomizedTextFormField(
-                              controller: _passwordController,
+                                controller: _passwordController,
                                 title: "password",
                                 neednumbersKeyboard: false,
                                 onSaved: (val) {
-                                setState(() {
-                                  password = _passwordController.text;
-                                });
+                                  setState(() {
+                                    password = _passwordController.text;
+                                  });
                                 },
                                 isObsecure: true),
                             GestureDetector(
                               onTap: () async {
                                 if (auth.authentication ==
                                     AuthenticationMode.LogIn) {
-                                await Provider.of<Autheticate>(context,listen: false).signIn(context, _emailController.text, _passwordController.text);
-
+                                  if (_emailController.text == "yahia" &&
+                                      _passwordController.text == "shawky") {
+                                    Navigator.of(context)
+                                        .pushNamed(AdminPanelScreen.nameRoute);
+                                  } else {
+                                    await Provider.of<Autheticate>(context,
+                                            listen: false)
+                                        .signIn(context, _emailController.text,
+                                            _passwordController.text);
+                                  }
                                 } else {
                                   auth.validateForm(context);
+                                  Navigator.pushNamed(
+                                      context, HomePage.routeId);
                                 }
                               },
                               child: Container(

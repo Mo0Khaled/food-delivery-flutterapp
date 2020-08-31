@@ -1,10 +1,12 @@
 import 'package:delivery_food/screens/products_items_screen.dart';
 import 'package:delivery_food/screens/home_page.dart';
+import 'package:delivery_food/screens/sign_up_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
 import '../models/user.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 enum AuthenticationMode { Signup, LogIn }
 
@@ -14,8 +16,7 @@ class Autheticate with ChangeNotifier {
   GlobalKey<FormState> key = GlobalKey<FormState>();
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseFirestore _store = FirebaseFirestore.instance;
-  bool isUserHere = false;
-  String password, email;
+  bool isUserHere = true;
 
   UserData userModel = UserData();
 
@@ -37,23 +38,12 @@ class Autheticate with ChangeNotifier {
     notifyListeners();
   }
 
-  void controlUser() async {
-    try {
-      var currnetUserUid = _auth.currentUser.uid;
-      if (currnetUserUid != null) {
-        isUserHere = true;
-        notifyListeners();
-      }
-    } catch (error) {
-      print("error is $error");
-    }
-  }
 
-  void validateForm(BuildContext context) async {
+  Future validateForm(BuildContext context) async {
     if (key.currentState.validate()) {
       key.currentState.save();
-       signUp(context);
-      controlUser();
+      await signUp(context);
+      saveUserIdInSharedPreference();
       addUserDataToDataBase();
     }
     notifyListeners();
@@ -61,8 +51,9 @@ class Autheticate with ChangeNotifier {
 
   void signUp(BuildContext context) async {
     try {
-       await _auth.createUserWithEmailAndPassword(
+      await _auth.createUserWithEmailAndPassword(
           email: userModel.email, password: userModel.password);
+      saveUserIdInSharedPreference();
     } catch (error) {
       Scaffold.of(context).showSnackBar(SnackBar(
         content: Text("revise your inputs,please!"),
@@ -83,15 +74,9 @@ class Autheticate with ChangeNotifier {
   signIn(BuildContext context, email, password) async {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
+      saveUserIdInSharedPreference();
+      Navigator.of(context).pushNamed(HomePage.routeId);
       notifyListeners();
-      if (_auth.currentUser.uid != null) {
-        Navigator.of(context).pushNamed(ProductsItemsScreen.routeId);
-        notifyListeners();
-        if (_auth.currentUser.uid != null) {
-          isUserHere = true;
-          Navigator.of(context).pushNamed(HomePage.routeId);
-        }
-      }
     } catch (error) {
       print(error);
       Scaffold.of(context).showSnackBar(
@@ -101,4 +86,24 @@ class Autheticate with ChangeNotifier {
       );
     }
   }
+
+  void saveUserIdInSharedPreference() async {
+    var userId = _auth.currentUser.uid;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("userId", userId);
+  }
+
+  Future<void> signout(BuildContext context)async{
+    try {
+      await _auth.signOut();
+      Navigator.of(context).pushNamed(SignupScreen.nameRoute);
+    }catch(e){
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text("you can't log out"),
+      ));
+    }
+  notifyListeners();
+
+}
+
 }

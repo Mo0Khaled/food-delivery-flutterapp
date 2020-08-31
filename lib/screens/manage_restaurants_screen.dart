@@ -51,7 +51,7 @@ class _ManageRestaurantsState extends State<ManageRestaurants> {
   void didChangeDependencies() {
     if (_isInit) {
       final restaurantId = ModalRoute.of(context).settings.arguments as String;
-      print("hhhh $restaurantId");
+//      print("hhhh $restaurantId");
       if (restaurantId != null) {
         rModel =
             Provider.of<RestaurantProvider>(context).findById(restaurantId);
@@ -77,7 +77,7 @@ class _ManageRestaurantsState extends State<ManageRestaurants> {
             .updateRestaurants(rModel.id, rModel);
       } else {
         Provider.of<RestaurantProvider>(context, listen: false)
-            .addProducts(rModel);
+            .addProducts(rModel,context);
       }
     } else {
       Scaffold.of(context).showSnackBar(SnackBar(
@@ -181,7 +181,7 @@ class _ManageRestaurantsState extends State<ManageRestaurants> {
                     }
                     return null;
                   },
-                  initialValue: restaurantFields[kRestaurantRank],
+                  initialValue: restaurantFields[kRestaurantRank].toString(),
                   onSaved: (val) {
                     rModel = RestaurantModel(
                         rank: double.parse(val),

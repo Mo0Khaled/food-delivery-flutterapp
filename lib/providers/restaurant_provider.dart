@@ -1,5 +1,6 @@
 import 'package:delivery_food/constants.dart';
 import 'package:delivery_food/models/restaurant_model.dart';
+import 'package:delivery_food/screens/admin_restaurant_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -13,17 +14,17 @@ class RestaurantProvider with ChangeNotifier {
     return _restaurants;
   }
 
-  void addProducts(RestaurantModel restaurant){
-    _store.collection(kRestaurantsCollection).add({
-      kRestaurantId:restaurant.id,
+  void addProducts(RestaurantModel restaurant,BuildContext context)async{
+    await _store.collection(kRestaurantsCollection).add({
       kRestaurantCategory:restaurant.category,
       kRestaurantDeliveryTime:restaurant.deliveryTime,
       kRestaurantImgUrl:restaurant.imgUrl,
       kRestaurantDesiredOrders:restaurant.desiredOrders,
       kRestaurantRank:restaurant.rank,
     });
-  }
 
+    Navigator.of(context).pushNamed(AdminRestaurantScreen.nameRoute);
+  }
 
    Stream fetchDataFromDB() {
    return _store.collection(kRestaurantsCollection).snapshots();

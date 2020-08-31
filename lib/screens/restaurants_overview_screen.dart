@@ -6,7 +6,9 @@ import 'package:provider/provider.dart';
 import '../providers/restaurant_provider.dart';
 
 class RestaurantsOverview extends StatelessWidget {
-  // ignore: missing_return
+  static const nameRoute="restaurant-route";
+
+
   Future<List<RestaurantModel>> refresh(BuildContext context) async {
     await Provider.of<RestaurantProvider>(context, listen: false).fetch();
   }
@@ -21,15 +23,18 @@ class RestaurantsOverview extends StatelessWidget {
           child: FutureBuilder<List<RestaurantModel>>(
             future: refresh(context),
             builder: (context, snapshot) =>
+               snapshot.hasError?Text("error"):
                 snapshot.connectionState == ConnectionState.waiting
                     ? Center(
                         child: CircularProgressIndicator(),
                       )
                     : ListView.builder(
-                        itemCount: 3,
+                        itemCount: provider.restaurantsList.length,
                         itemBuilder: (context, i) => RestaurantContainerUi(
                             title: provider.restaurantsList[i].category,
-                            rank: provider.restaurantsList[i].rank)),
+                            rank: provider.restaurantsList[i].rank,imgUrl: provider.restaurantsList[i].imgUrl,
+                        desiredMeals: provider.restaurantsList[i].desiredOrders,
+                        estimatedTime: provider.restaurantsList[i].deliveryTime,)),
           ),
         ),
       ),

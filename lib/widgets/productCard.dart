@@ -29,7 +29,8 @@ class ProductCard extends StatelessWidget {
                 alignment: Alignment.center,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 5),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -38,7 +39,9 @@ class ProductCard extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
             ],
           ),
         ),
