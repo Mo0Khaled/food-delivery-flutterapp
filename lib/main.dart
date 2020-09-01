@@ -72,9 +72,6 @@ class FoodDelivery extends StatelessWidget {
               iconTheme: IconThemeData(color: Colors.black),
             ),
           ),
-          // home: ManageRestaurants(),
-          initialRoute: HomePage.routeId,
-          // home: auth.isUserHere ? ProductsItemsScreen() :OnBoardingScreen(),
           home:home,
           routes: {
             HomePage.routeId: (context) => HomePage(),
