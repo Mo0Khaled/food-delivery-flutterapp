@@ -47,7 +47,7 @@ class FoodDelivery extends StatelessWidget {
           create: (context) => RestaurantProvider(),
         ),
         ChangeNotifierProvider(
-          create: (context)=>UserProfileProvider(),
+          create: (context) => UserProfileProvider(),
         )
       ],
       child: Consumer<Autheticate>(
@@ -69,7 +69,7 @@ class FoodDelivery extends StatelessWidget {
             ),
           ),
           // home: auth.isUserHere ? ProductsItemsScreen() :OnBoardingScreen(),
-          home:home,
+          home: home,
           routes: {
             HomePage.routeId: (context) => HomePage(),
             MangeProductsScreen.routeId: (context) => MangeProductsScreen(),
@@ -77,8 +77,7 @@ class FoodDelivery extends StatelessWidget {
             SignupScreen.nameRoute: (context) => SignupScreen(),
             LogIn.nameRoute: (context) => LogIn(),
             ProductsItemsScreen.routeId: (context) => ProductsItemsScreen(),
-            AdminRestaurantScreen.nameRoute: (context) =>
-                AdminRestaurantScreen(),
+            AdminRestaurantScreen.nameRoute: (context) => AdminRestaurantScreen(),
             ManageRestaurants.nameRoute: (context) => ManageRestaurants(),
             AdminPanelScreen.nameRoute: (context) => AdminPanelScreen()
             // ProductDetails.routeId:(context)=>ProductDetails(),

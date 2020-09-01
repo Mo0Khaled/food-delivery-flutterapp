@@ -56,7 +56,7 @@ class RestaurantProvider with ChangeNotifier {
     }
 
 
-    updateRestaurants(String id,RestaurantModel rest) async{
+    updateRestaurants(String id,RestaurantModel rest) async {
      await _store.collection(kRestaurantsCollection).doc(id).update({
        kRestaurantImgUrl:rest.imgUrl,
        kRestaurantCategory:rest.category,
