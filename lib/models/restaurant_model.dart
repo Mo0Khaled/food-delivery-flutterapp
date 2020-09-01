@@ -13,5 +13,6 @@ class RestaurantModel {
       this.deliveryTime,
       this.desiredOrders,
       this.imgUrl,
-      this.rank});
+      this.rank
+      });
 }

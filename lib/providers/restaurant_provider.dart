@@ -13,6 +13,10 @@ class RestaurantProvider with ChangeNotifier {
     return _restaurants;
   }
 
+  List<RestaurantModel> filterByCategory(String name){
+   return _restaurants.where((element) => element.category.contains(name)).toList();
+  }
+
   void addProducts(RestaurantModel restaurant){
     _store.collection(kRestaurantsCollection).add({
       kRestaurantId:restaurant.id,
@@ -43,7 +47,7 @@ class RestaurantProvider with ChangeNotifier {
             id: doc.id
         ));
       }
-      _restaurants=res;
+      _restaurants = res.toList();
       return _restaurants;
     }
 

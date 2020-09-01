@@ -2,10 +2,10 @@ import 'package:delivery_food/models/product_model.dart';
 import 'package:delivery_food/widgets/product/product_details.dart';
 import 'package:flutter/material.dart';
 
-class ProductCard extends StatelessWidget {
+class ProductCardItem extends StatelessWidget {
   final ProductModel productDetails;
 
-  ProductCard({@required this.productDetails});
+  ProductCardItem({@required this.productDetails});
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,7 @@
 import 'package:delivery_food/locator.dart';
 import 'package:delivery_food/providers/authinticate_provider.dart';
 import 'package:delivery_food/screens/admin_product_screen.dart';
+import 'package:delivery_food/screens/filtering.dart';
 import 'package:delivery_food/screens/home_page.dart';
 import 'package:delivery_food/screens/products_items_screen.dart';
 import 'package:delivery_food/screens/login.dart';
@@ -21,18 +22,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   setUpLocator();
-  // Widget home = RestaurantsOverview();
-  // if (FirebaseAuth.instance.currentUser.uid == null) {
-  //   home = SignupScreen();
-  // }else{
-  // }
   runApp(FoodDelivery());
 
 }
 
 class FoodDelivery extends StatelessWidget {
- // final Widget home;
- //  FoodDelivery(this.home);
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -74,6 +68,7 @@ class FoodDelivery extends StatelessWidget {
             SignupScreen.nameRoute: (context) => SignupScreen(),
             LogIn.nameRoute: (context) => LogIn(),
             ProductsItemsScreen.routeId:(context)=>ProductsItemsScreen(),
+            Filtering.routeId:(context)=>Filtering()
             // ProductDetails.routeId:(context)=>ProductDetails(),
           },
         ),
@@ -82,4 +77,3 @@ class FoodDelivery extends StatelessWidget {
   }
 }
 
-//AdminProductScreen.routeId
