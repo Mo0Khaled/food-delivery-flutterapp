@@ -1,3 +1,4 @@
+// import 'package:delivery_food/screens/products_items_screen.dart';
 import 'package:flutter/material.dart';
 
 class RestaurantContainerUi extends StatelessWidget {
@@ -6,15 +7,18 @@ class RestaurantContainerUi extends StatelessWidget {
   final String desiredMeals;
   final String estimatedTime;
   final String imgUrl;
-  RestaurantContainerUi(
-      {this.rank,
-      this.title,
-      this.desiredMeals,
-      this.estimatedTime,
-      this.imgUrl});
+
+  RestaurantContainerUi({this.rank,
+    this.title,
+    this.desiredMeals,
+    this.estimatedTime,
+    this.imgUrl});
+
   @override
   Widget build(BuildContext context) {
-    var mediaQuery = MediaQuery.of(context).size;
+    var mediaQuery = MediaQuery
+        .of(context)
+        .size;
     return Container(
       margin: EdgeInsets.all(20),
       alignment: Alignment.center,
@@ -81,6 +85,7 @@ class RestaurantContainerUi extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 18.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
                       Icon(
                         Icons.star_border,
@@ -92,13 +97,17 @@ class RestaurantContainerUi extends StatelessWidget {
                       ),
                       Text(
                         rank.toString(),
+                        overflow: TextOverflow.ellipsis,
+
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       SizedBox(
                         width: 10,
                       ),
                       Text(
-                        desiredMeals,
+                        "burger - drinks",
+                        overflow: TextOverflow.ellipsis,
+                        semanticsLabel: desiredMeals,
                         style: TextStyle(
                           color: Colors.black54,
                         ),
@@ -108,6 +117,8 @@ class RestaurantContainerUi extends StatelessWidget {
                       ),
                       Text(
                         "\$\$\$",
+                        overflow: TextOverflow.ellipsis,
+
                         style: TextStyle(
                           color: Colors.black54,
                         ),

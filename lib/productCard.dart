@@ -2,15 +2,15 @@ import 'package:delivery_food/models/product_model.dart';
 import 'package:delivery_food/widgets/product/product_details.dart';
 import 'package:flutter/material.dart';
 
-class ProductCard extends StatelessWidget {
+class ProductCardItem extends StatelessWidget {
   final ProductModel productDetails;
 
-  ProductCard({@required this.productDetails});
+  ProductCardItem({@required this.productDetails});
 
   @override
   Widget build(BuildContext context) {
-    TextStyle titleStyle = TextStyle(
-      fontSize: 18,
+    TextStyle _titleStyle = TextStyle(
+      fontSize: 20,
       fontWeight: FontWeight.w600,
       letterSpacing: .8,
     );
@@ -19,13 +19,12 @@ class ProductCard extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
         width: double.infinity,
-        // height: MediaQuery.of(context).size.height * 0.26,
         child: InkWell(
           onTap: () {
-            // Navigator.of(context).pushNamed(ProductDetails.routeId,arguments: productDetails.id);
             showModalBottomSheet(
               context: context,
               builder: (context) => ProductDetails(
+                id: productDetails.id,
                 title: productDetails.title,
                 imgUrl: productDetails.imgUrl,
                 calories: productDetails.calories,
@@ -40,12 +39,15 @@ class ProductCard extends StatelessWidget {
             elevation: 2,
             child: Column(
               children: [
-                Image.network(
-                  productDetails.imgUrl,
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  height: MediaQuery.of(context).size.height * 0.2,
-                  fit: BoxFit.contain,
-                  alignment: Alignment.center,
+                Hero(
+                  tag: productDetails.id,
+                  child: Image.network(
+                    productDetails.imgUrl,
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    height: MediaQuery.of(context).size.height * 0.2,
+                    fit: BoxFit.contain,
+                    alignment: Alignment.center,
+                  ),
                 ),
                 Padding(
                   padding:
@@ -55,11 +57,11 @@ class ProductCard extends StatelessWidget {
                     children: [
                       Text(
                         productDetails.title,
-                        style: titleStyle,
+                        style: _titleStyle
                       ),
                       Text(
                         "\$${productDetails.price}",
-                        style: titleStyle,
+                        style: _titleStyle,
                       ),
                     ],
                   ),

@@ -126,7 +126,7 @@ class _UserProfileState extends State<UserProfile> {
                   ),
                 ),
                 FutureBuilder(
-                  future:Provider.of<UserProfileProvider>(context,listen: false)
+                  future:Provider.of<UserProfileProvider>(context,listen:false)
                       .fetchUserData() ,
                   builder:(context,snapshot)=> Text(
                      snapshot.connectionState==ConnectionState.waiting?"loading..":

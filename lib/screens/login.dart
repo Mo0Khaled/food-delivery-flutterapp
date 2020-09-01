@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'products_items_screen.dart';
-
 class LogIn extends StatefulWidget {
   static const String nameRoute = "log-in";
   @override
   _LogInState createState() => _LogInState();
 }
-
 class _LogInState extends State<LogIn> {
   String email = "";
   String password = "";
@@ -26,6 +23,17 @@ class _LogInState extends State<LogIn> {
                 key: _form,
                 child: Column(
                   children: <Widget>[
+                   TextFormField(
+                     onSaved: (_){
+                       setState(() {
+                         email=_emailController.text;
+                       });
+                     },
+                     controller: _emailController,
+                     decoration: InputDecoration(
+                       labelText: "email"
+                     ),
+                   ),
                     TextFormField(
                       onSaved: (_) {
                         setState(() {
@@ -53,7 +61,7 @@ class _LogInState extends State<LogIn> {
                         Navigator.of(context)
                             .pushNamed(ProductsItemsScreen.routeId);
                       },
-                    )
+                    ),
                   ],
                 ),
               ),

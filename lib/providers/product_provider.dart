@@ -14,6 +14,9 @@ class ProductProvider with ChangeNotifier {
   ProductModel findById(String id) =>
       _products.firstWhere((prod) => prod.id == id);
 
+  List<ProductModel> filterByRestaurant(String name){
+    return _products.where((cat) => cat.restaurantName.contains(name)).toList();
+  }
   Future<List<ProductModel>> fetchProducts() async {
     var response = await _api.getDataCollection();
     _products = response.docs

@@ -14,6 +14,11 @@ class RestaurantProvider with ChangeNotifier {
     return _restaurants;
   }
 
+
+  List<RestaurantModel> filterByCategory(String name){
+    return _restaurants.where((element) => element.category.contains(name)).toList();
+  }
+
   void addProducts(RestaurantModel restaurant,BuildContext context)async{
     await _store.collection(kRestaurantsCollection).add({
       kRestaurantCategory:restaurant.category,
@@ -26,8 +31,8 @@ class RestaurantProvider with ChangeNotifier {
     Navigator.of(context).pushNamed(AdminRestaurantScreen.nameRoute);
   }
 
-   Stream fetchDataFromDB() {
-   return _store.collection(kRestaurantsCollection).snapshots();
+  Stream fetchDataFromDB() {
+    return _store.collection(kRestaurantsCollection).snapshots();
   }
 
   Future<List<RestaurantModel>> fetch() async {
@@ -35,25 +40,26 @@ class RestaurantProvider with ChangeNotifier {
     var snapshot=await _store.collection(kRestaurantsCollection).get();
     for(var doc in snapshot.docs){
       var data = doc.data();
-        res.add(RestaurantModel(
-            deliveryTime: data[kRestaurantDeliveryTime],
-            imgUrl: data[kRestaurantImgUrl],
-            desiredOrders: data[kRestaurantDesiredOrders],
-            category: data[kRestaurantCategory],
-            rank: data[kRestaurantRank],
-            id: doc.id
-        ));
-      }
-      _restaurants=res;
-      return _restaurants;
+      res.add(RestaurantModel(
+          deliveryTime: data[kRestaurantDeliveryTime],
+          imgUrl: data[kRestaurantImgUrl],
+          desiredOrders: data[kRestaurantDesiredOrders],
+          category: data[kRestaurantCategory],
+          rank: data[kRestaurantRank],
+          id: doc.id
+      ));
     }
+    _restaurants=res;
+    return _restaurants;
+  }
 
 
-    deleteRestaurant(String id)async{
-     await _store.collection(kRestaurantsCollection).doc(id).delete();
-     _restaurants.removeWhere((element) => element.id==id);
-     notifyListeners();
-    }
+  deleteRestaurant(String id)async{
+    await _store.collection(kRestaurantsCollection).doc(id).delete();
+    _restaurants.removeWhere((element) => element.id==id);
+    notifyListeners();
+  }
+
 
 
     updateRestaurants(String id,RestaurantModel rest) async {
@@ -67,9 +73,10 @@ class RestaurantProvider with ChangeNotifier {
      notifyListeners();
 }
 
-   findById(String id)  {
-  RestaurantModel rest=_restaurants.firstWhere((element) => element.id==id);
-  return rest;
-}
+
+  findById(String id)  {
+    RestaurantModel rest=_restaurants.firstWhere((element) => element.id==id);
+    return rest;
+  }
 
 }

@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/user.dart';
 import 'dart:io';
-import 'package:image_picker/image_picker.dart';
 
 class UserProfileProvider with ChangeNotifier {
   FirebaseAuth _auth = FirebaseAuth.instance;
