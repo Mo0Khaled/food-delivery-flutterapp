@@ -1,5 +1,6 @@
 import 'package:delivery_food/locator.dart';
 import 'package:delivery_food/providers/authinticate_provider.dart';
+import 'package:delivery_food/providers/cart_provider.dart';
 import 'package:delivery_food/providers/user_profile_provider.dart';
 import 'package:delivery_food/screens/admin_panel_screen.dart';
 import 'package:delivery_food/screens/admin_product_screen.dart';
@@ -31,9 +32,6 @@ void main() async {
   runApp(FoodDelivery(userId == null ? OnBoardingScreen() : HomePage()));
 
 }
-
-
-
 class FoodDelivery extends StatelessWidget {
   final Widget home;
   FoodDelivery(this.home);
@@ -52,7 +50,10 @@ class FoodDelivery extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context)=>UserProfileProvider(),
-        )
+        ),
+        ChangeNotifierProvider(
+          create: (context)=>CartProvider(),
+        ),
       ],
       child: Consumer<Autheticate>(
         builder: (context, auth, _) => MaterialApp(

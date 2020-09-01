@@ -2,6 +2,7 @@ import 'package:delivery_food/providers/product_provider.dart';
 import 'file:///F:/work/fluter/delivery_food/lib/productCard.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 // import '../widgets/productCard.dart';
 // import 'package:provider/provider.dart';
 // import '../providers/authinticate_provider.dart';
@@ -16,11 +17,17 @@ class ProductsItemsScreen extends StatelessWidget {
     return Scaffold(
       body: FutureBuilder(
         future: productProvider.fetchProducts(),
-        builder:(context,snapshot) => ListView.builder(
-          itemCount: productProvider.products.length,
-          itemBuilder: (context, index) => ProductCardItem(productDetails: productProvider.products[index]),
-      )
-      )
+        builder: (context, snapshot) =>
+            snapshot.connectionState == ConnectionState.waiting
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : ListView.builder(
+                    itemCount: productProvider.products.length,
+                    itemBuilder: (context, index) => ProductCardItem(
+                        productDetails: productProvider.products[index]),
+                  ),
+      ),
     );
   }
 }
@@ -40,4 +47,3 @@ class ProductsItemsScreen extends StatelessWidget {
 // }
 // },
 // ),
-
