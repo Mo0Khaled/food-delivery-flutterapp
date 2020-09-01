@@ -6,15 +6,16 @@ import 'package:provider/provider.dart';
 import '../providers/restaurant_provider.dart';
 
 class RestaurantsOverview extends StatefulWidget {
+  static const nameRoute = "restaurant-route";
+
   @override
   _RestaurantsOverviewState createState() => _RestaurantsOverviewState();
 }
 
 class _RestaurantsOverviewState extends State<RestaurantsOverview> {
-
   Widget build(BuildContext context) {
     final provider = Provider.of<RestaurantProvider>(context);
-    List<String> myList = ['drinks', 'ahmed','dwid','mqekjdf','efiofeio'];
+    List<String> myList = ['drinks', 'ahmed', 'dwid', 'mqekjdf', 'efiofeio'];
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -34,16 +35,17 @@ class _RestaurantsOverviewState extends State<RestaurantsOverview> {
                   itemBuilder: (context, index) => Row(
                     children: [
                       InkWell(
-                        onTap: (){
-                        Navigator.of(context).pushNamed(Filtering.routeId,arguments: myList[index]);
+                        onTap: () {
+                          Navigator.of(context).pushNamed(Filtering.routeId,
+                              arguments: myList[index]);
                         },
                         child: Container(
                           alignment: Alignment.center,
                           height: 30,
                           width: 90,
                           decoration: BoxDecoration(
-                              color: Colors.black,
-                              borderRadius: BorderRadius.circular(6),
+                            color: Colors.black,
+                            borderRadius: BorderRadius.circular(6),
                           ),
                           child: Text(
                             myList[index],
@@ -62,24 +64,32 @@ class _RestaurantsOverviewState extends State<RestaurantsOverview> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Text("All",style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),),
+              child: Text(
+                "All",
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              ),
             ),
             Expanded(
               child: Container(
                 child: FutureBuilder<List<RestaurantModel>>(
                   future: provider.fetch(),
-                  builder: (context, snapshot) =>
-                      snapshot.connectionState == ConnectionState.waiting
-                          ? Center(
-                              child: CircularProgressIndicator(),
-                            )
-                          : ListView.builder(
-                              itemCount: provider.restaurantsList.length,
-                              itemBuilder: (context, i) => RestaurantContainerUi(
-                                title: provider.restaurantsList[i].category,
-                                rank: provider.restaurantsList[i].rank,
-                              ),
-                      ),
+                  builder: (context, snapshot) => snapshot.connectionState ==
+                          ConnectionState.waiting
+                      ? Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : ListView.builder(
+                          itemCount: provider.restaurantsList.length,
+                          itemBuilder: (context, i) => RestaurantContainerUi(
+                            title: provider.restaurantsList[i].category,
+                            rank: provider.restaurantsList[i].rank,
+                            imgUrl: provider.restaurantsList[i].imgUrl,
+                            desiredMeals:
+                                provider.restaurantsList[i].desiredOrders,
+                            estimatedTime:
+                                provider.restaurantsList[i].deliveryTime,
+                          ),
+                        ),
                 ),
               ),
             ),

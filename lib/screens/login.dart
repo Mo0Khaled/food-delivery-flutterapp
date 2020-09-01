@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'products_items_screen.dart';
 class LogIn extends StatefulWidget {
-  static const String  nameRoute="log-in";
+  static const String nameRoute = "log-in";
   @override
   _LogInState createState() => _LogInState();
 }
@@ -11,7 +11,7 @@ class _LogInState extends State<LogIn> {
   String password = "";
   final _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  GlobalKey<FormState> _form=GlobalKey();
+  GlobalKey<FormState> _form = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +20,7 @@ class _LogInState extends State<LogIn> {
           child: Column(
             children: <Widget>[
               Form(
-                key: _form ,
+                key: _form,
                 child: Column(
                   children: <Widget>[
                    TextFormField(
@@ -35,22 +35,31 @@ class _LogInState extends State<LogIn> {
                      ),
                    ),
                     TextFormField(
-                      controller: _passwordController,
-                      onSaved: (val){
-                       setState(() {
-                         password=_passwordController.text;
-                       });
+                      onSaved: (_) {
+                        setState(() {
+                          email = _emailController.text;
+                        });
                       },
-                      decoration: InputDecoration(
-                          labelText: "password"
-                      ),
+                      controller: _emailController,
+                      decoration: InputDecoration(labelText: "email"),
+                    ),
+                    TextFormField(
+                      controller: _passwordController,
+                      onSaved: (val) {
+                        setState(() {
+                          password = _passwordController.text;
+                        });
+                      },
+                      decoration: InputDecoration(labelText: "password"),
                     ),
                     FlatButton(
                       child: Text("LogIn"),
                       color: Colors.black,
-                      onPressed: ()async{
-                       await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
-                       Navigator.of(context).pushNamed(ProductsItemsScreen.routeId);
+                      onPressed: () async {
+                        await FirebaseAuth.instance.signInWithEmailAndPassword(
+                            email: email, password: password);
+                        Navigator.of(context)
+                            .pushNamed(ProductsItemsScreen.routeId);
                       },
                     ),
                   ],

@@ -1,4 +1,5 @@
 import 'package:delivery_food/screens/home_page.dart';
+import 'package:delivery_food/screens/sign_up_screen.dart';
 import 'package:flutter/material.dart';
 import '../widgets/auth/on-boarding.dart';
 import 'package:dots_indicator/dots_indicator.dart';
@@ -33,50 +34,53 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height * 0.5,
-              child: PageView.builder(
-                itemBuilder: (context, index) => pages[index],
-                itemCount: pages.length,
-                onPageChanged: (pageIndex) {
-                  setState(() {
-                    _pageIndex = pageIndex;
-                  });
-                },
-              ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.022,
-            ),
-            DotsIndicator(
-              dotsCount: pages.length,
-              mainAxisAlignment: MainAxisAlignment.center,
-              position: _pageIndex.toDouble(),
-              decorator: DotsDecorator(
-                activeColor: Colors.black,
-              ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.022,
-            ),
-            Column(
-              children: <Widget>[
-                button(context, Colors.black, "Log In", () {
-                  Navigator.of(context).pushNamed(HomePage.routeId);
-                }, true),
-                SizedBox(
-                  height: 20.0,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(height:MediaQuery.of(context).size.height *0.1 ,),
+              Container(
+                width: double.infinity,
+                height: MediaQuery.of(context).size.height * 0.5,
+                child: PageView.builder(
+                  itemBuilder: (context, index) => pages[index],
+                  itemCount: pages.length,
+                  onPageChanged: (pageIndex) {
+                    setState(() {
+                      _pageIndex = pageIndex;
+                    });
+                  },
                 ),
-                button(context, Colors.white, "Sign up", () {
-                  Navigator.of(context).pushNamed(HomePage.routeId);
-                }, false),
-              ],
-            ),
-          ],
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.022,
+              ),
+              DotsIndicator(
+                dotsCount: pages.length,
+                mainAxisAlignment: MainAxisAlignment.center,
+                position: _pageIndex.toDouble(),
+                decorator: DotsDecorator(
+                  activeColor: Colors.black,
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.022,
+              ),
+              Column(
+                children: <Widget>[
+                  button(context, Colors.black, "Log In", () {
+                    Navigator.of(context).pushNamed(SignupScreen.nameRoute);
+                  }, true),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  button(context, Colors.white, "Sign up", () {
+                    Navigator.of(context).pushNamed(SignupScreen.nameRoute);
+                  }, false),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

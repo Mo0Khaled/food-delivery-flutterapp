@@ -1,4 +1,5 @@
-class UserData {
+
+class UserData{
   String email;
   String password;
   String userName;
@@ -6,3 +7,6 @@ class UserData {
 
   UserData({this.email, this.password, this.userName, this.phoneNumber});
 }
+
+
+

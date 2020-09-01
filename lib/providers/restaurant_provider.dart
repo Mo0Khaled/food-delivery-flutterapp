@@ -1,5 +1,6 @@
 import 'package:delivery_food/constants.dart';
 import 'package:delivery_food/models/restaurant_model.dart';
+import 'package:delivery_food/screens/admin_restaurant_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -13,24 +14,25 @@ class RestaurantProvider with ChangeNotifier {
     return _restaurants;
   }
 
+
   List<RestaurantModel> filterByCategory(String name){
-   return _restaurants.where((element) => element.category.contains(name)).toList();
+    return _restaurants.where((element) => element.category.contains(name)).toList();
   }
 
-  void addProducts(RestaurantModel restaurant){
-    _store.collection(kRestaurantsCollection).add({
-      kRestaurantId:restaurant.id,
+  void addProducts(RestaurantModel restaurant,BuildContext context)async{
+    await _store.collection(kRestaurantsCollection).add({
       kRestaurantCategory:restaurant.category,
       kRestaurantDeliveryTime:restaurant.deliveryTime,
       kRestaurantImgUrl:restaurant.imgUrl,
       kRestaurantDesiredOrders:restaurant.desiredOrders,
       kRestaurantRank:restaurant.rank,
     });
+
+    Navigator.of(context).pushNamed(AdminRestaurantScreen.nameRoute);
   }
 
-
-   Stream fetchDataFromDB() {
-   return _store.collection(kRestaurantsCollection).snapshots();
+  Stream fetchDataFromDB() {
+    return _store.collection(kRestaurantsCollection).snapshots();
   }
 
   Future<List<RestaurantModel>> fetch() async {
@@ -38,41 +40,41 @@ class RestaurantProvider with ChangeNotifier {
     var snapshot=await _store.collection(kRestaurantsCollection).get();
     for(var doc in snapshot.docs){
       var data = doc.data();
-        res.add(RestaurantModel(
-            deliveryTime: data[kRestaurantDeliveryTime],
-            imgUrl: data[kRestaurantImgUrl],
-            desiredOrders: data[kRestaurantDesiredOrders],
-            category: data[kRestaurantCategory],
-            rank: data[kRestaurantRank],
-            id: doc.id
-        ));
-      }
-      _restaurants = res.toList();
-      return _restaurants;
+      res.add(RestaurantModel(
+          deliveryTime: data[kRestaurantDeliveryTime],
+          imgUrl: data[kRestaurantImgUrl],
+          desiredOrders: data[kRestaurantDesiredOrders],
+          category: data[kRestaurantCategory],
+          rank: data[kRestaurantRank],
+          id: doc.id
+      ));
     }
+    _restaurants=res;
+    return _restaurants;
+  }
 
 
-    deleteRestaurant(String id)async{
-     await _store.collection(kRestaurantsCollection).doc(id).delete();
-     _restaurants.removeWhere((element) => element.id==id);
-     notifyListeners();
-    }
+  deleteRestaurant(String id)async{
+    await _store.collection(kRestaurantsCollection).doc(id).delete();
+    _restaurants.removeWhere((element) => element.id==id);
+    notifyListeners();
+  }
 
 
-    updateRestaurants(String id,RestaurantModel rest) async{
-     await _store.collection(kRestaurantsCollection).doc(id).update({
-       kRestaurantImgUrl:rest.imgUrl,
-       kRestaurantCategory:rest.category,
-       kRestaurantDesiredOrders:rest.desiredOrders,
-       kRestaurantRank:rest.rank,
-       kRestaurantDeliveryTime:rest.deliveryTime
-     });
-     notifyListeners();
-}
+  updateRestaurants(String id,RestaurantModel rest) async{
+    await _store.collection(kRestaurantsCollection).doc(id).update({
+      kRestaurantImgUrl:rest.imgUrl,
+      kRestaurantCategory:rest.category,
+      kRestaurantDesiredOrders:rest.desiredOrders,
+      kRestaurantRank:rest.rank,
+      kRestaurantDeliveryTime:rest.deliveryTime
+    });
+    notifyListeners();
+  }
 
-   findById(String id)  {
-  RestaurantModel rest=_restaurants.firstWhere((element) => element.id==id);
-  return rest;
-}
+  findById(String id)  {
+    RestaurantModel rest=_restaurants.firstWhere((element) => element.id==id);
+    return rest;
+  }
 
 }

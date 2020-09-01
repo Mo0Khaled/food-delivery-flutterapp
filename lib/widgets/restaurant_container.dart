@@ -1,4 +1,4 @@
-import 'package:delivery_food/screens/products_items_screen.dart';
+// import 'package:delivery_food/screens/products_items_screen.dart';
 import 'package:flutter/material.dart';
 
 class RestaurantContainerUi extends StatelessWidget {
@@ -6,47 +6,83 @@ class RestaurantContainerUi extends StatelessWidget {
   final double rank;
   final String desiredMeals;
   final String estimatedTime;
+  final String imgUrl;
 
-  RestaurantContainerUi(
-      {this.rank, this.title, this.desiredMeals, this.estimatedTime});
+  RestaurantContainerUi({this.rank,
+    this.title,
+    this.desiredMeals,
+    this.estimatedTime,
+    this.imgUrl});
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: (){
-        Navigator.of(context).pushNamed(ProductsItemsScreen.routeId,arguments: title);
-      },
-      child: Container(
-        margin: EdgeInsets.all(20),
-        alignment: Alignment.center,
-        width: double.infinity,
-        height: MediaQuery.of(context).size.height * 0.3,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(10.0),
-          child: GridTile(
-            child: GestureDetector(
+    var mediaQuery = MediaQuery
+        .of(context)
+        .size;
+    return Container(
+      margin: EdgeInsets.all(20),
+      alignment: Alignment.center,
+      width: mediaQuery.width * 0.7,
+      height: mediaQuery.height * 0.26,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10.0),
+        child: GridTile(
+          child: GestureDetector(
+            child: Stack(children: <Widget>[
+              Container(
+                  width: double.infinity,
+                  child: Image.network(
+                    imgUrl,
+                    fit: BoxFit.cover,
+                  )),
+              Positioned(
+                left: mediaQuery.width * 0.65,
+                top: mediaQuery.height * 0.173,
                 child: Container(
-                    child: Image.asset(
-              "assets/images/pic2.jpg",
-              fit: BoxFit.cover,
-            ))),
-            footer: Container(
-              height: MediaQuery.of(context).size.height * 0.07,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-              child: GridTileBar(
-                backgroundColor: Colors.white,
-                leading: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.3,
-                  child: Text(
-                    title,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 20.0),
+                  padding: const EdgeInsets.only(left: 10, right: 10, top: 5),
+                  alignment: Alignment.bottomRight,
+                  child: Row(
+                    children: <Widget>[
+                      Icon(
+                        Icons.access_time,
+                        size: 18,
+                      ),
+                      SizedBox(
+                        width: 3,
+                      ),
+                      Text(
+                        estimatedTime,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ],
                   ),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10))),
                 ),
-                trailing: Container(
-                  alignment: Alignment.centerRight,
+              )
+            ]),
+          ),
+          footer: Container(
+            decoration: BoxDecoration(
+                border: Border.all(width: 0.1),
+                borderRadius: BorderRadius.circular(20.0)),
+            child: GridTileBar(
+              backgroundColor: Colors.white,
+              leading: Container(
+                width: mediaQuery.width * 0.2,
+                child: Text(
+                  title.length > 10 ? "${title.substring(0, 8)}..." : title,
+                  style: TextStyle(fontSize: 20.0),
+                ),
+              ),
+              trailing: Container(
+                width: mediaQuery.width * 0.5,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 18.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -62,6 +98,7 @@ class RestaurantContainerUi extends StatelessWidget {
                       Text(
                         rank.toString(),
                         overflow: TextOverflow.ellipsis,
+
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       SizedBox(
@@ -70,6 +107,7 @@ class RestaurantContainerUi extends StatelessWidget {
                       Text(
                         "burger - drinks",
                         overflow: TextOverflow.ellipsis,
+                        semanticsLabel: desiredMeals,
                         style: TextStyle(
                           color: Colors.black54,
                         ),
@@ -80,6 +118,7 @@ class RestaurantContainerUi extends StatelessWidget {
                       Text(
                         "\$\$\$",
                         overflow: TextOverflow.ellipsis,
+
                         style: TextStyle(
                           color: Colors.black54,
                         ),

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AdminRestaurantScreen extends StatelessWidget {
-
+  static const String nameRoute="adminRestaurant";
   // ignore: missing_return
   Future<List<RestaurantModel>> refresh(BuildContext context) async{
    await Provider.of<RestaurantProvider>(context,listen: false).fetch();
@@ -15,7 +15,14 @@ class AdminRestaurantScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: ()=>Navigator.of(context).pushNamed(ManageRestaurants.routeId),
+          )
+        ],
+      ),
       body: Consumer<RestaurantProvider>(
           builder: (context, rProvider, _) =>
               FutureBuilder<List<RestaurantModel>>(

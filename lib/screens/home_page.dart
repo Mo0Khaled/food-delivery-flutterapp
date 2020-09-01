@@ -4,6 +4,7 @@ import 'package:delivery_food/screens/products_items_screen.dart';
 import 'package:delivery_food/screens/restaurants_overview_screen.dart';
 import 'file:///F:/work/fluter/delivery_food/lib/widgets/bottom_navy_bar/bottom_navy_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:delivery_food/screens/user_profile_screen.dart';
 class HomePage extends StatefulWidget {
   static const routeId = "home-page";
 
@@ -46,7 +47,10 @@ class _HomePageState extends State<HomePage> {
           RestaurantsOverview(),
           ProductsItemsScreen(),
           MangeProductsScreen(),
-          AdminProductScreen(),
+          // AdminProductScreen(),
+          // Scaffold(appBar: AppBar(),),
+          // Scaffold(appBar: AppBar(),),
+          UserProfile()
         ],
       ),
       bottomNavigationBar: BottomNavyBarWidget(
