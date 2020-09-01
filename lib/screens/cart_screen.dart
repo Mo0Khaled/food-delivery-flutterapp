@@ -1,4 +1,5 @@
 import 'package:delivery_food/providers/cart_provider.dart';
+import 'package:delivery_food/providers/order_provider.dart';
 import 'package:delivery_food/widgets/cart/cart_item_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,9 +13,10 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
-    final cartProvider = Provider.of<CartProvider>(context);
+    final cartProvider = Provider.of<CartProvider>(context,listen: false);
+    final orderProvider = Provider.of<OrderProvider>(context);
     return Scaffold(
-      body: SafeArea(
+      body:cartProvider.itemCount == 0  ? Center(child: Text("No Items"),): SafeArea(
         child: Column(
           children: [
             Container(
@@ -95,7 +97,7 @@ class _CartScreenState extends State<CartScreen> {
                         ),
                       ),
                       Text(
-                        "\$${cartProvider.totalAmount + 2}",
+                        "\$${cartProvider.totalAmount}",
                         style: TextStyle(
                           color: Color(0xFFFFB41E),
                           fontWeight: FontWeight.w700,
@@ -109,21 +111,27 @@ class _CartScreenState extends State<CartScreen> {
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
-                  child: Container(
-                    alignment: Alignment.center,
-                    width: double.infinity,
-                    height: MediaQuery.of(context).size.height * 0.06,
-                    decoration: BoxDecoration(
-                      color: Color(0xFFFFB41E),
-                      borderRadius: BorderRadius.circular(7),
-                    ),
-                    child: Text(
-                      "Continue",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          letterSpacing: 0.5,
-                          fontWeight: FontWeight.w500),
+                  child: InkWell(
+                    onTap: ()async{
+                     await orderProvider.addOrder(cartProvider.cartProducts.values.toList(), cartProvider.totalAmount);
+                     cartProvider.clearCart();
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: double.infinity,
+                      height: MediaQuery.of(context).size.height * 0.06,
+                      decoration: BoxDecoration(
+                        color: Color(0xFFFFB41E),
+                        borderRadius: BorderRadius.circular(7),
+                      ),
+                      child: Text(
+                        "Continue",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            letterSpacing: 0.5,
+                            fontWeight: FontWeight.w500),
+                      ),
                     ),
                   ),
                 ),

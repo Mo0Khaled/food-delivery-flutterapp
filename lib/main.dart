@@ -1,6 +1,7 @@
 import 'package:delivery_food/locator.dart';
 import 'package:delivery_food/providers/authinticate_provider.dart';
 import 'package:delivery_food/providers/cart_provider.dart';
+import 'package:delivery_food/providers/order_provider.dart';
 import 'package:delivery_food/providers/user_profile_provider.dart';
 import 'package:delivery_food/screens/admin_panel_screen.dart';
 import 'package:delivery_food/screens/admin_product_screen.dart';
@@ -9,6 +10,7 @@ import 'package:delivery_food/screens/admin_restaurant_screen.dart';
 import 'package:delivery_food/screens/home_page.dart';
 import 'package:delivery_food/screens/manage_restaurants_screen.dart';
 import 'package:delivery_food/screens/on_boarding_screen.dart';
+import 'package:delivery_food/screens/order_screen.dart';
 import 'package:delivery_food/screens/products_items_screen.dart';
 import 'package:delivery_food/screens/login.dart';
 import 'package:delivery_food/screens/mange_products_screen.dart';
@@ -54,6 +56,9 @@ class FoodDelivery extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context)=>CartProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (context)=>OrderProvider(),
+        ),
       ],
       child: Consumer<Autheticate>(
         builder: (context, auth, _) => MaterialApp(
@@ -80,11 +85,12 @@ class FoodDelivery extends StatelessWidget {
             AdminProductScreen.routeId: (context) => AdminProductScreen(),
             SignupScreen.nameRoute: (context) => SignupScreen(),
             LogIn.nameRoute: (context) => LogIn(),
-            ProductsItemsScreen.routeId:(context)=>ProductsItemsScreen(),
+            ProductsItemsScreen.routeId:(context)=> ProductsItemsScreen(),
             Filtering.routeId:(context)=>Filtering(),
             AdminRestaurantScreen.nameRoute: (context) => AdminRestaurantScreen(),
             ManageRestaurants.routeId: (context) => ManageRestaurants(),
             AdminPanelScreen.nameRoute: (context) => AdminPanelScreen(),
+            OrderScreen.routeId:(context)=> OrderScreen(),
             // ProductDetails.routeId:(context)=>ProductDetails(),
           },
         ),

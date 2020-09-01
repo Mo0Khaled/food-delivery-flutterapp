@@ -1,10 +1,11 @@
-import 'package:delivery_food/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'dart:io';
 import '../providers/user_profile_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
+
+import 'order_screen.dart';
 
 class UserProfile extends StatefulWidget {
   @override
@@ -26,8 +27,7 @@ class _UserProfileState extends State<UserProfile> {
   void picture() async {
     File imageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
-      image=imageFile;
-
+      image = imageFile;
     });
     Navigator.pop(context);
   }
@@ -35,10 +35,11 @@ class _UserProfileState extends State<UserProfile> {
   void capture() async {
     File imageFile = await ImagePicker.pickImage(source: ImageSource.camera);
     setState(() {
-      image=imageFile;
+      image = imageFile;
     });
     Navigator.pop(context);
   }
+
   void onButtonClickTap(BuildContext context) {
     showDialog(
         context: context,
@@ -49,7 +50,7 @@ class _UserProfileState extends State<UserProfile> {
               children: <Widget>[
                 FlatButton(
                   child: Text("pick image"),
-                  onPressed: () =>picture() ,
+                  onPressed: () => picture(),
                 ),
                 FlatButton(
                   child: Text("capture image"),
@@ -95,18 +96,17 @@ class _UserProfileState extends State<UserProfile> {
                   child: Stack(
                     children: <Widget>[
                       Container(
-                        width: MediaQuery.of(context).size.width *0.35,
-                        height:MediaQuery.of(context).size.height*0.2 ,
+                        width: MediaQuery.of(context).size.width * 0.35,
+                        height: MediaQuery.of(context).size.height * 0.2,
                         child: CircleAvatar(
-                          backgroundImage:
-                              image== null
-                                  ? AssetImage("assets/images/no-user.jpg")
-                                  : FileImage(image),
+                          backgroundImage: image == null
+                              ? AssetImage("assets/images/no-user.jpg")
+                              : FileImage(image),
                         ),
                       ),
                       Positioned(
-                        left: MediaQuery.of(context).size.width*0.2,
-                        top: MediaQuery.of(context).size.width*0.25,
+                        left: MediaQuery.of(context).size.width * 0.2,
+                        top: MediaQuery.of(context).size.width * 0.25,
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(70),
@@ -126,11 +126,13 @@ class _UserProfileState extends State<UserProfile> {
                   ),
                 ),
                 FutureBuilder(
-                  future:Provider.of<UserProfileProvider>(context,listen: false)
-                      .fetchUserData() ,
-                  builder:(context,snapshot)=> Text(
-                     snapshot.connectionState==ConnectionState.waiting?"loading..":
-                    "${Provider.of<UserProfileProvider>(context, listen: false).user.userName}",
+                  future:
+                      Provider.of<UserProfileProvider>(context, listen: false)
+                          .fetchUserData(),
+                  builder: (context, snapshot) => Text(
+                    snapshot.connectionState == ConnectionState.waiting
+                        ? "loading.."
+                        : "${Provider.of<UserProfileProvider>(context, listen: false).user.userName}",
                     style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -171,7 +173,8 @@ class _UserProfileState extends State<UserProfile> {
                             fontSize: 25, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(
-                        height: 10,width: 20,
+                        height: 10,
+                        width: 20,
                       ),
                       Text("25% discount on all products")
                     ],
@@ -188,18 +191,38 @@ class _UserProfileState extends State<UserProfile> {
                 padding: const EdgeInsets.all(4.0),
                 child: Column(
                   children: <Widget>[
-                    MylistTile("Orders", null, Icons.border_all,
-                        Colors.purpleAccent[50], Colors.purpleAccent),
+                    MylistTile(
+                      "Orders",
+                      null,
+                      Icons.border_all,
+                      Colors.purpleAccent[50],
+                      Colors.purpleAccent,
+                        (){
+                        Navigator.of(context).pushNamed(OrderScreen.routeId);
+                        }
+                    ),
                     SizedBox(
                       height: 20,
                     ),
-                    MylistTile("Cards", null, FontAwesomeIcons.simCard,
-                        Color(0xFFffb218), Colors.yellow[100]),
+                    MylistTile(
+                      "Cards",
+                      null,
+                      FontAwesomeIcons.simCard,
+                      Color(0xFFffb218),
+                      Colors.yellow[100],
+                            (){}
+                    ),
                     SizedBox(
                       height: 10,
                     ),
-                    MylistTile("Location", null, Icons.location_on,
-                        Colors.lightBlueAccent, Colors.cyan[100]),
+                    MylistTile(
+                      "Location",
+                      null,
+                      Icons.location_on,
+                      Colors.lightBlueAccent,
+                      Colors.cyan[100],
+                            (){}
+                    ),
                   ],
                 ),
               ),
@@ -211,20 +234,23 @@ class _UserProfileState extends State<UserProfile> {
   }
 }
 
-Widget MylistTile(
-    String title, Function ontap, IconData icondata, Color color, iconColor) {
-  return ListTile(
-    title: Text(title),
-    onTap: ontap,
-    leading: Container(
-        width: 50,
-        height: 50,
-        decoration:
-            BoxDecoration(color: color, borderRadius: BorderRadius.circular(5)),
-        child: Icon(
-          icondata,
-          color: iconColor,
-          size: 30,
-        )),
+Widget MylistTile(String title, Function ontap, IconData icondata, Color color,
+    iconColor, Function onTap) {
+  return GestureDetector(
+    onTap: onTap,
+    child: ListTile(
+      title: Text(title),
+      onTap: ontap,
+      leading: Container(
+          width: 50,
+          height: 50,
+          decoration: BoxDecoration(
+              color: color, borderRadius: BorderRadius.circular(5)),
+          child: Icon(
+            icondata,
+            color: iconColor,
+            size: 30,
+          )),
+    ),
   );
 }
