@@ -1,21 +1,14 @@
-import 'dart:convert';
-
 import 'package:delivery_food/providers/authinticate_provider.dart';
 import 'package:delivery_food/screens/sign_up_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'dart:io';
 import '../providers/user_profile_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 import '../db_sqlite/db.dart';
 import '../models/image_sqlite.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 import 'order_screen.dart';
-import '../models/image_sqlite.dart';
 
 class UserProfile extends StatefulWidget {
   @override
@@ -24,14 +17,16 @@ class UserProfile extends StatefulWidget {
 
 class _UserProfileState extends State<UserProfile> {
   String imageF;
-  ImagaSqlite image = ImagaSqlite();
+  ImageSqlite image = ImageSqlite();
   DBSqlite db = DBSqlite();
   Map images;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    returnPicture();
+    if(image.imageName != null)
+       returnPicture();
   }
 
   Future<void> returnPicture() async {
@@ -43,28 +38,41 @@ class _UserProfileState extends State<UserProfile> {
   }
 
   void picture(BuildContext context) async {
-    File imageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
-    ImagaSqlite imagesql = ImagaSqlite(
+    ImagePicker imagePicker = ImagePicker();
+    var imageFile = await imagePicker.getImage(source: ImageSource.gallery);
+    try{
+      ImageSqlite imagesql = ImageSqlite(
         id: FirebaseAuth.instance.currentUser.uid.substring(0, 2),
-        imageName: imageFile.path);
-    setState(() {
-      imageF = imageFile.path;
-    });
-    db.savePhoto(imagesql);
-    Navigator.pop(context);
-  }
-  void capture(BuildContext context) async {
-    File imageFile = await ImagePicker.pickImage(source: ImageSource.camera);
-    ImagaSqlite imagesql = ImagaSqlite(
-        id: FirebaseAuth.instance.currentUser.uid.substring(0, 2),
-        imageName: imageFile.path);
-    setState(() {
-      imageF = imageFile.path;
-    });
-    db.updateImage(imagesql);
-    Navigator.pop(context);
+        imageName: imageFile.path ,
+      );
+      setState(() {
+        imageF = imageFile.path;
+      });
+      db.savePhoto(imagesql);
+      Navigator.pop(context);
+    }catch(error){
+      Scaffold.of(context).showSnackBar(SnackBar(content: Text("You did\'t picked any Image!")));
+      Navigator.pop(context);
+    }
   }
 
+  void capture(BuildContext context) async {
+    ImagePicker imagePicker = ImagePicker();
+    var imageFile = await imagePicker.getImage(source: ImageSource.camera);
+    try{
+      ImageSqlite imagesql = ImageSqlite(
+          id: FirebaseAuth.instance.currentUser.uid.substring(0, 2),
+          imageName: imageFile.path);
+      setState(() {
+        imageF = imageFile.path;
+      });
+      db.updateImage(imagesql);
+      Navigator.pop(context);
+    }catch(error){
+      print(error);
+    }
+
+  }
 
   void onButtonClickTap(BuildContext context) {
     showDialog(
@@ -76,7 +84,9 @@ class _UserProfileState extends State<UserProfile> {
               children: <Widget>[
                 FlatButton(
                   child: Text("pick image"),
-                  onPressed: () => picture(context),
+                  onPressed: () {
+                      picture(context);
+                  } ,
                 ),
                 FlatButton(
                   child: Text("capture image"),
@@ -100,13 +110,13 @@ class _UserProfileState extends State<UserProfile> {
         elevation: 0,
         actions: <Widget>[
           IconButton(
-            icon: Icon(FontAwesomeIcons.ellipsisV),
-            onPressed: () async{
-              await Provider.of<Autheticate>(context, listen: false)
-                .signout(context);
-              Navigator.of(context).pushReplacementNamed(SignupScreen.nameRoute);
-  }
-          )
+              icon: Icon(FontAwesomeIcons.signOutAlt),
+              onPressed: () async {
+                await Provider.of<Autheticate>(context, listen: false)
+                    .signout(context);
+                Navigator.of(context)
+                    .pushReplacementNamed(SignupScreen.nameRoute);
+              })
         ],
       ),
       body: FutureBuilder(
@@ -138,9 +148,8 @@ class _UserProfileState extends State<UserProfile> {
                                 height:
                                     MediaQuery.of(context).size.height * 0.16,
                                 child: CircleAvatar(
-                                  backgroundImage: imageF != null
-                                      ? AssetImage(imageF):
-                                  AssetImage("assets/images/no-user.jpg"),
+                                  backgroundImage: image.imageName == null
+                                      ? AssetImage("assets/images/no-user.jpg") : AssetImage(imageF),
                                 ),
                               ),
                               Positioned(
@@ -157,15 +166,16 @@ class _UserProfileState extends State<UserProfile> {
                                       Icons.add_a_photo,
                                       size: 25,
                                       color: Colors.black,
-                                    )
-                                    ),
+                                    )),
                                   ),
                                 ),
                               ),
                             ],
                           ),
                         ),
-                        SizedBox(height: 10,),
+                        SizedBox(
+                          height: 10,
+                        ),
                         Text(
                             "${Provider.of<UserProfileProvider>(context, listen: false).user.userName}"),
                         Card(
@@ -243,7 +253,7 @@ class _UserProfileState extends State<UserProfile> {
                         padding: const EdgeInsets.all(4.0),
                         child: Column(
                           children: <Widget>[
-                            MylistTile(
+                            myListTile(
                                 "Orders",
                                 null,
                                 Icons.border_all,
@@ -255,12 +265,12 @@ class _UserProfileState extends State<UserProfile> {
                             SizedBox(
                               height: 20,
                             ),
-                            MylistTile("Cards", null, FontAwesomeIcons.simCard,
+                            myListTile("Cards", null, FontAwesomeIcons.simCard,
                                 Color(0xFFffb218), Colors.yellow[100], () {}),
                             SizedBox(
                               height: 10,
                             ),
-                            MylistTile(
+                            myListTile(
                                 "Location",
                                 null,
                                 Icons.location_on,
@@ -279,7 +289,7 @@ class _UserProfileState extends State<UserProfile> {
   }
 }
 
-Widget MylistTile(String title, Function ontap, IconData icondata, Color color,
+Widget myListTile(String title, Function ontap, IconData icondata, Color color,
     iconColor, Function onTap) {
   return GestureDetector(
     onTap: onTap,

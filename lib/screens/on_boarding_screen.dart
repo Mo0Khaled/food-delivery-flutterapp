@@ -1,4 +1,3 @@
-import 'package:delivery_food/screens/home_page.dart';
 import 'package:delivery_food/screens/sign_up_screen.dart';
 import 'package:flutter/material.dart';
 import '../widgets/auth/on-boarding.dart';

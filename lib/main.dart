@@ -1,4 +1,3 @@
-import 'package:delivery_food/db_sqlite/db.dart';
 import 'package:delivery_food/locator.dart';
 import 'package:delivery_food/providers/authinticate_provider.dart';
 import 'package:delivery_food/providers/cart_provider.dart';

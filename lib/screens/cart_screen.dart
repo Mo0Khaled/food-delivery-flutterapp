@@ -13,7 +13,7 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
-    final cartProvider = Provider.of<CartProvider>(context,listen: false);
+    final cartProvider = Provider.of<CartProvider>(context,listen: true);
     final orderProvider = Provider.of<OrderProvider>(context);
     return Scaffold(
       body:cartProvider.itemCount == 0  ? Center(child: Text("No Items"),): SafeArea(

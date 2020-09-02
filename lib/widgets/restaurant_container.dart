@@ -115,14 +115,14 @@ class RestaurantContainerUi extends StatelessWidget {
                       SizedBox(
                         width: 10,
                       ),
-                      Text(
-                        "\$\$\$",
-                        overflow: TextOverflow.ellipsis,
-
-                        style: TextStyle(
-                          color: Colors.black54,
-                        ),
-                      ),
+                      // Text(
+                      //   "\$\$\$",
+                      //   overflow: TextOverflow.ellipsis,
+                      //
+                      //   style: TextStyle(
+                      //     color: Colors.black54,
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),

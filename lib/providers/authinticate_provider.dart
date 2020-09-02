@@ -1,6 +1,4 @@
-import 'package:delivery_food/screens/products_items_screen.dart';
 import 'package:delivery_food/screens/home_page.dart';
-import 'package:delivery_food/screens/sign_up_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +40,7 @@ class Autheticate with ChangeNotifier {
   Future validateForm(BuildContext context) async {
     if (key.currentState.validate()) {
       key.currentState.save();
-      await signUp(context);
+       signUp(context);
       saveUserIdInSharedPreference();
       addUserDataToDataBase();
     }

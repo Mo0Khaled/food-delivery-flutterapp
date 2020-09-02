@@ -11,7 +11,7 @@ class DBSqlite {
   static const String ImageNamee = "imageNamee";
   static const String Table = "photosTablessss";
   static const String DBName = "photosssss.db";
-  ImagaSqlite imageSql = ImagaSqlite();
+  ImageSqlite imageSql = ImageSqlite();
 
   Future<Database> get db async {
     if (_dataB != null) {
@@ -32,7 +32,7 @@ class DBSqlite {
     await db.execute('CREATE TABLE $Table($Id TEXT,$ImageNamee TEXT)');
   }
 
-  savePhoto(ImagaSqlite image) async {
+  savePhoto(ImageSqlite image) async {
     var database = await db;
     var row = await database.insert(Table, image.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace);
@@ -40,12 +40,12 @@ class DBSqlite {
     return stringRow;
   }
 
-  Future<ImagaSqlite> getPhoto(String id) async {
+  Future<ImageSqlite> getPhoto(String id) async {
     var database = await db;
     var response = await database.query(Table, where:"idd= ?", whereArgs: [id]);
-    return response.isNotEmpty ? ImagaSqlite.fromMap(response.first) : null;
+    return response.isNotEmpty ? ImageSqlite.fromMap(response.first) : null;
   }
-   updateImage(ImagaSqlite image)async{
+   updateImage(ImageSqlite image)async{
     var database=await db;
     var row=await database.update(Table, image.toMap(),conflictAlgorithm: ConflictAlgorithm.replace);
     var stringRow = row.toString();

@@ -14,7 +14,7 @@ class UserProfileProvider with ChangeNotifier {
   fetchUserData() async {
     try{
       var uId = _auth.currentUser.uid;
-      _store
+     await _store
           .collection(kUsersCollection)
           .doc(uId)
           .get()
