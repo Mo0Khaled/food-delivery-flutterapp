@@ -1,24 +1,18 @@
+import 'dart:io';
 
+class ImagaSqlite {
+  String id;
+  String imageName;
 
-class ImagaSqlite{
+  ImagaSqlite({this.id, this.imageName});
 
-  final String  id;
-  final imageName;
-
-  ImagaSqlite({this.id,this.imageName});
-
-
-  Map<String,dynamic> toMap(){
-     Map<String,dynamic> map={
-      "id":id,
-      "imageName":imageName
-    };
+  Map<String, dynamic> toMap() {
+    Map<String, dynamic> map = {"idd": id, "imageNamee": imageName};
+    return map;
   }
 
-  factory ImagaSqlite.fromMap(Map<String, dynamic> json) => new ImagaSqlite(
-    id: json["id"],
-    imageName: json["imageName"],
-  );
-
-
+  ImagaSqlite.fromMap(Map<String, dynamic> json) {
+    id = json["id"];
+    imageName = json["imageName"];
+  }
 }

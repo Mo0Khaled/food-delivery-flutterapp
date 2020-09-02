@@ -19,12 +19,11 @@ class UserProfileProvider with ChangeNotifier {
           .doc(uId)
           .get()
           .then((doc) {
-        print(doc.data());
         user = UserData(
             email: doc.data()[kUserEmail],
             phoneNumber: doc.data()[kUserPhoneNumber],
             userName: doc.data()[kUserName]);
-            notifyListeners();
+        return user;
 
       });
     }catch(e){

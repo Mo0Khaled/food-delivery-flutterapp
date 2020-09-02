@@ -1,5 +1,4 @@
-import 'package:delivery_food/screens/admin_product_screen.dart';
-import 'package:delivery_food/screens/mange_products_screen.dart';
+import 'package:delivery_food/screens/cart_screen.dart';
 import 'package:delivery_food/screens/products_items_screen.dart';
 import 'package:delivery_food/screens/restaurants_overview_screen.dart';
 import '../widgets/bottom_navy_bar/bottom_navy_widget.dart';
@@ -46,10 +45,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           RestaurantsOverview(),
           ProductsItemsScreen(),
-          MangeProductsScreen(),
-          // AdminProductScreen(),
-          // Scaffold(appBar: AppBar(),),
-          // Scaffold(appBar: AppBar(),),
+          CartScreen(),
           UserProfile()
         ],
       ),

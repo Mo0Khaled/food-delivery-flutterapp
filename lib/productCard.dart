@@ -29,6 +29,7 @@ class ProductCardItem extends StatelessWidget {
                 imgUrl: productDetails.imgUrl,
                 calories: productDetails.calories,
                 description: productDetails.description,
+                price: productDetails.price,
               ),
             );
           },

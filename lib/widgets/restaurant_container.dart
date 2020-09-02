@@ -36,8 +36,8 @@ class RestaurantContainerUi extends StatelessWidget {
                     fit: BoxFit.cover,
                   )),
               Positioned(
-                left: mediaQuery.width * 0.65,
-                top: mediaQuery.height * 0.173,
+                left: mediaQuery.width * 0.64,
+                top: mediaQuery.height * 0.165,
                 child: Container(
                   padding: const EdgeInsets.only(left: 10, right: 10, top: 5),
                   alignment: Alignment.bottomRight,

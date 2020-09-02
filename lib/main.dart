@@ -1,5 +1,8 @@
+import 'package:delivery_food/db_sqlite/db.dart';
 import 'package:delivery_food/locator.dart';
 import 'package:delivery_food/providers/authinticate_provider.dart';
+import 'package:delivery_food/providers/cart_provider.dart';
+import 'package:delivery_food/providers/order_provider.dart';
 import 'package:delivery_food/providers/user_profile_provider.dart';
 import 'package:delivery_food/screens/admin_panel_screen.dart';
 import 'package:delivery_food/screens/admin_product_screen.dart';
@@ -8,6 +11,7 @@ import 'package:delivery_food/screens/admin_restaurant_screen.dart';
 import 'package:delivery_food/screens/home_page.dart';
 import 'package:delivery_food/screens/manage_restaurants_screen.dart';
 import 'package:delivery_food/screens/on_boarding_screen.dart';
+import 'package:delivery_food/screens/order_screen.dart';
 import 'package:delivery_food/screens/products_items_screen.dart';
 import 'package:delivery_food/screens/login.dart';
 import 'package:delivery_food/screens/mange_products_screen.dart';
@@ -29,8 +33,8 @@ void main() async {
   var userId = prefs.get("userId");
   setUpLocator();
   runApp(FoodDelivery(userId == null ? OnBoardingScreen() : HomePage()));
-
 }
+
 class FoodDelivery extends StatelessWidget {
   final Widget home;
   FoodDelivery(this.home);
@@ -49,7 +53,13 @@ class FoodDelivery extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => UserProfileProvider(),
-        )
+        ),
+        ChangeNotifierProvider(
+          create: (context) => CartProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => OrderProvider(),
+        ),
       ],
       child: Consumer<Autheticate>(
         builder: (context, auth, _) => MaterialApp(
@@ -70,7 +80,7 @@ class FoodDelivery extends StatelessWidget {
             ),
           ),
           // home: auth.isUserHere ? ProductsItemsScreen() :OnBoardingScreen()
-          home:home,
+          home: home,
           routes: {
             HomePage.routeId: (context) => HomePage(),
             MangeProductsScreen.routeId: (context) => MangeProductsScreen(),
@@ -78,10 +88,12 @@ class FoodDelivery extends StatelessWidget {
             SignupScreen.nameRoute: (context) => SignupScreen(),
             LogIn.nameRoute: (context) => LogIn(),
             ProductsItemsScreen.routeId: (context) => ProductsItemsScreen(),
-            AdminRestaurantScreen.nameRoute: (context) => AdminRestaurantScreen(),
+            AdminRestaurantScreen.nameRoute: (context) =>
+                AdminRestaurantScreen(),
             ManageRestaurants.routeId: (context) => ManageRestaurants(),
             AdminPanelScreen.nameRoute: (context) => AdminPanelScreen(),
-            Filtering.routeId:(context)=>Filtering(),
+            Filtering.routeId: (context) => Filtering(),
+            OrderScreen.routeId: (context) => OrderScreen(),
             // ProductDetails.routeId:(context)=>ProductDetails(),
           },
         ),
