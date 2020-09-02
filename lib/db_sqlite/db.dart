@@ -6,19 +6,19 @@ import 'package:path/path.dart';
 import '../models/image_sqlite.dart';
 
 class DBSqlite {
-  static Database _db;
-  static const String ID = "id";
-  static const String ImageName = "imageName";
-  static const String Table = "photosTablesss";
-  static const String DBName = "photossss.db";
+  static Database _dataB;
+  static const String Id = "idd";
+  static const String ImageNamee = "imageNamee";
+  static const String Table = "photosTablessss";
+  static const String DBName = "photosssss.db";
   ImagaSqlite imageSql = ImagaSqlite();
 
   Future<Database> get db async {
-    if (_db != null) {
-      return _db;
+    if (_dataB != null) {
+      return _dataB;
     }
-    _db = await initDB();
-    return _db;
+    _dataB = await initDB();
+    return _dataB;
   }
 
   initDB() async {
@@ -29,21 +29,29 @@ class DBSqlite {
   }
 
   _onCreate(Database db, int version) async {
-    await db.execute('CREATE TABLE $Table($ID TEXT,$ImageName TEXT)');
-  }
-  Future<String> change(database,image)async{
-    await database.insert(Table, image.toMap()).toString();
+    await db.execute('CREATE TABLE $Table($Id TEXT,$ImageNamee TEXT)');
   }
 
-   savePhoto(ImagaSqlite image) async {
+  savePhoto(ImagaSqlite image) async {
     var database = await db;
-    var row= await change(database, image);
-    return row;
+    var row = await database.insert(Table, image.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
+    var stringRow = row.toString();
+    return stringRow;
   }
 
   Future<ImagaSqlite> getPhoto(String id) async {
     var database = await db;
-    var response = await database.query(Table, where: "id= ?", whereArgs: [id]);
+    var response = await database.query(Table, where:"idd= ?", whereArgs: [id]);
     return response.isNotEmpty ? ImagaSqlite.fromMap(response.first) : null;
   }
+   updateImage(ImagaSqlite image)async{
+    var database=await db;
+    var row=await database.update(Table, image.toMap(),conflictAlgorithm: ConflictAlgorithm.replace);
+    var stringRow = row.toString();
+    return stringRow;
+  }
+
+
+
 }

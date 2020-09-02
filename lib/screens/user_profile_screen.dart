@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:delivery_food/providers/authinticate_provider.dart';
+import 'package:delivery_food/screens/sign_up_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -22,17 +23,14 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
-  File imageName;
-  ImagaSqlite image;
-  var decodedImage;
-  DBSqlite db;
+  String imageF;
+  ImagaSqlite image = ImagaSqlite();
+  DBSqlite db = DBSqlite();
   Map images;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    image = ImagaSqlite();
-    db = DBSqlite();
     returnPicture();
   }
 
@@ -40,22 +38,33 @@ class _UserProfileState extends State<UserProfile> {
     image = await db
         .getPhoto(FirebaseAuth.instance.currentUser.uid.substring(0, 2));
     setState(() {
-      decodedImage = base64Decode(image.imageName);
+      imageF = image.imageName;
     });
   }
 
   void picture(BuildContext context) async {
     File imageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
-    String imgString = base64Encode(imageFile.readAsBytesSync());
     ImagaSqlite imagesql = ImagaSqlite(
         id: FirebaseAuth.instance.currentUser.uid.substring(0, 2),
-        imageName: imgString);
+        imageName: imageFile.path);
     setState(() {
-      imageName = imageFile;
+      imageF = imageFile.path;
     });
     db.savePhoto(imagesql);
     Navigator.pop(context);
   }
+  void capture(BuildContext context) async {
+    File imageFile = await ImagePicker.pickImage(source: ImageSource.camera);
+    ImagaSqlite imagesql = ImagaSqlite(
+        id: FirebaseAuth.instance.currentUser.uid.substring(0, 2),
+        imageName: imageFile.path);
+    setState(() {
+      imageF = imageFile.path;
+    });
+    db.updateImage(imagesql);
+    Navigator.pop(context);
+  }
+
 
   void onButtonClickTap(BuildContext context) {
     showDialog(
@@ -71,7 +80,7 @@ class _UserProfileState extends State<UserProfile> {
                 ),
                 FlatButton(
                   child: Text("capture image"),
-                  onPressed: () => null,
+                  onPressed: () => capture(context),
                 ),
                 FlatButton(
                   child: Text("cancel"),
@@ -92,8 +101,11 @@ class _UserProfileState extends State<UserProfile> {
         actions: <Widget>[
           IconButton(
             icon: Icon(FontAwesomeIcons.ellipsisV),
-            onPressed: () => Provider.of<Autheticate>(context, listen: false)
-                .signout(context),
+            onPressed: () async{
+              await Provider.of<Autheticate>(context, listen: false)
+                .signout(context);
+              Navigator.of(context).pushReplacementNamed(SignupScreen.nameRoute);
+  }
           )
         ],
       ),
@@ -122,18 +134,18 @@ class _UserProfileState extends State<UserProfile> {
                           child: Stack(
                             children: <Widget>[
                               Container(
-                                width: MediaQuery.of(context).size.width * 0.35,
+                                width: MediaQuery.of(context).size.width * 0.3,
                                 height:
-                                    MediaQuery.of(context).size.height * 0.2,
+                                    MediaQuery.of(context).size.height * 0.16,
                                 child: CircleAvatar(
-                                  backgroundImage: image.imageName != null
-                                      ? AssetImage("assets/images/no-user.jpg")
-                                      :MemoryImage(decodedImage),
+                                  backgroundImage: imageF != null
+                                      ? AssetImage(imageF):
+                                  AssetImage("assets/images/no-user.jpg"),
                                 ),
                               ),
                               Positioned(
                                 left: MediaQuery.of(context).size.width * 0.2,
-                                top: MediaQuery.of(context).size.width * 0.25,
+                                top: MediaQuery.of(context).size.height * 0.1,
                                 child: Container(
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(70),
@@ -145,13 +157,15 @@ class _UserProfileState extends State<UserProfile> {
                                       Icons.add_a_photo,
                                       size: 25,
                                       color: Colors.black,
-                                    )),
+                                    )
+                                    ),
                                   ),
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         ),
+                        SizedBox(height: 10,),
                         Text(
                             "${Provider.of<UserProfileProvider>(context, listen: false).user.userName}"),
                         Card(

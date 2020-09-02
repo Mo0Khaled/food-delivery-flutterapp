@@ -5,27 +5,27 @@ import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RestaurantProvider with ChangeNotifier {
+  FirebaseFirestore _store = FirebaseFirestore.instance;
+  List<RestaurantModel> _restaurants = [];
 
-
-  FirebaseFirestore _store =FirebaseFirestore.instance;
-  List<RestaurantModel> _restaurants=[];
-
-  List<RestaurantModel> get restaurantsList{
+  List<RestaurantModel> get restaurantsList {
     return _restaurants;
   }
 
-
-  List<RestaurantModel> filterByCategory(String name){
-    return _restaurants.where((element) => element.category.contains(name)).toList();
+  List<RestaurantModel> filterByCategory(String name) {
+    return _restaurants
+        .where((element) => element.category.contains(name))
+        .toList();
   }
 
-  void addProducts(RestaurantModel restaurant,BuildContext context)async{
+  void addRestaurant(RestaurantModel restaurant, BuildContext context) async {
     await _store.collection(kRestaurantsCollection).add({
-      kRestaurantCategory:restaurant.category,
-      kRestaurantDeliveryTime:restaurant.deliveryTime,
-      kRestaurantImgUrl:restaurant.imgUrl,
-      kRestaurantDesiredOrders:restaurant.desiredOrders,
-      kRestaurantRank:restaurant.rank,
+      'restaurant_name': restaurant.restaurant,
+      kRestaurantCategory: restaurant.category,
+      kRestaurantDeliveryTime: restaurant.deliveryTime,
+      kRestaurantImgUrl: restaurant.imgUrl,
+      kRestaurantDesiredOrders: restaurant.desiredOrders,
+      kRestaurantRank: restaurant.rank,
     });
 
     Navigator.of(context).pushNamed(AdminRestaurantScreen.nameRoute);
@@ -36,47 +36,45 @@ class RestaurantProvider with ChangeNotifier {
   }
 
   Future<List<RestaurantModel>> fetch() async {
-    List<RestaurantModel> res=[];
-    var snapshot=await _store.collection(kRestaurantsCollection).get();
-    for(var doc in snapshot.docs){
+    List<RestaurantModel> res = [];
+    var snapshot = await _store.collection(kRestaurantsCollection).get();
+    for (var doc in snapshot.docs) {
       var data = doc.data();
-      res.add(RestaurantModel(
-          deliveryTime: data[kRestaurantDeliveryTime],
-          imgUrl: data[kRestaurantImgUrl],
-          desiredOrders: data[kRestaurantDesiredOrders],
-          category: data[kRestaurantCategory],
-          rank: data[kRestaurantRank],
-          id: doc.id
-      ));
+      res.add(
+        RestaurantModel(
+            restaurant: data['restaurant_name'],
+            deliveryTime: data[kRestaurantDeliveryTime],
+            imgUrl: data[kRestaurantImgUrl],
+            desiredOrders: data[kRestaurantDesiredOrders],
+            category: data[kRestaurantCategory],
+            rank: data[kRestaurantRank],
+            id: doc.id),
+      );
     }
-    _restaurants=res;
+    _restaurants = res;
     return _restaurants;
   }
 
-
-  deleteRestaurant(String id)async{
+  deleteRestaurant(String id) async {
     await _store.collection(kRestaurantsCollection).doc(id).delete();
-    _restaurants.removeWhere((element) => element.id==id);
+    _restaurants.removeWhere((element) => element.id == id);
     notifyListeners();
   }
 
-
-
-    updateRestaurants(String id,RestaurantModel rest) async {
-     await _store.collection(kRestaurantsCollection).doc(id).update({
-       kRestaurantImgUrl:rest.imgUrl,
-       kRestaurantCategory:rest.category,
-       kRestaurantDesiredOrders:rest.desiredOrders,
-       kRestaurantRank:rest.rank,
-       kRestaurantDeliveryTime:rest.deliveryTime
-     });
-     notifyListeners();
-}
-
-
-  findById(String id)  {
-    RestaurantModel rest=_restaurants.firstWhere((element) => element.id==id);
-    return rest;
+  updateRestaurants(String id, RestaurantModel rest) async {
+    await _store.collection(kRestaurantsCollection).doc(id).update({
+      kRestaurantImgUrl: rest.imgUrl,
+      kRestaurantCategory: rest.category,
+      kRestaurantDesiredOrders: rest.desiredOrders,
+      kRestaurantRank: rest.rank,
+      kRestaurantDeliveryTime: rest.deliveryTime
+    });
+    notifyListeners();
   }
 
+  findById(String id) {
+    RestaurantModel rest =
+        _restaurants.firstWhere((element) => element.id == id);
+    return rest;
+  }
 }

@@ -20,6 +20,7 @@ class _ManageRestaurantsState extends State<ManageRestaurants> {
   final FocusNode categoryNode = FocusNode();
 
   Map<String, dynamic> restaurantFields = {
+    'restaurant_name': "",
     kRestaurantRank: 0.toString(),
     kRestaurantDesiredOrders: "",
     kRestaurantImgUrl: "",
@@ -29,12 +30,14 @@ class _ManageRestaurantsState extends State<ManageRestaurants> {
 
   RestaurantModel rModel = RestaurantModel(
     id: null,
+    restaurant: "",
     category: "",
     deliveryTime: "",
     desiredOrders: "",
     imgUrl: "",
     rank: 0,
   );
+
   // final TextEditingController _imgController = TextEditingController();
 
   @override
@@ -59,6 +62,7 @@ class _ManageRestaurantsState extends State<ManageRestaurants> {
         rModel =
             Provider.of<RestaurantProvider>(context).findById(restaurantId);
         restaurantFields = {
+          'restaurant_name': rModel.restaurant,
           kRestaurantRank: rModel.rank.toString(),
           kRestaurantCategory: rModel.category,
           kRestaurantDeliveryTime: rModel.deliveryTime,
@@ -80,7 +84,7 @@ class _ManageRestaurantsState extends State<ManageRestaurants> {
             .updateRestaurants(rModel.id, rModel);
       } else {
         Provider.of<RestaurantProvider>(context, listen: false)
-            .addProducts(rModel,context);
+            .addRestaurant(rModel, context);
       }
     } else {
       Scaffold.of(context).showSnackBar(SnackBar(
@@ -110,6 +114,31 @@ class _ManageRestaurantsState extends State<ManageRestaurants> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 TextFormField(
+                  initialValue: restaurantFields['restaurant_name'],
+                  validator: (val) {
+                    if (val.isEmpty) {
+                      return "check your inputs please";
+                    }
+                    return null;
+                  },
+                  onSaved: (val) {
+                    rModel = RestaurantModel(
+                        restaurant: val,
+                        category: rModel.category,
+                        id: rModel.id,
+                        deliveryTime: rModel.deliveryTime,
+                        desiredOrders: rModel.desiredOrders,
+                        imgUrl: rModel.imgUrl,
+                        rank: rModel.rank);
+                  },
+//                  onFieldSubmitted: (_) {
+//                    FocusScope.of(context).requestFocus(deliverTimeNode);
+//                  },
+                  textInputAction: TextInputAction.next,
+//                  focusNode: categoryNode,
+                  decoration: InputDecoration(labelText: "Restaurant Name"),
+                ),
+                TextFormField(
                   initialValue: restaurantFields[kRestaurantCategory],
                   validator: (val) {
                     if (val.isEmpty || val.length < 2) {
@@ -119,6 +148,7 @@ class _ManageRestaurantsState extends State<ManageRestaurants> {
                   },
                   onSaved: (val) {
                     rModel = RestaurantModel(
+                        restaurant: rModel.restaurant,
                         category: val,
                         id: rModel.id,
                         deliveryTime: rModel.deliveryTime,
@@ -137,6 +167,7 @@ class _ManageRestaurantsState extends State<ManageRestaurants> {
                   initialValue: restaurantFields[kRestaurantDeliveryTime],
                   onSaved: (val) {
                     rModel = RestaurantModel(
+                        restaurant: rModel.restaurant,
                         deliveryTime: val,
                         rank: rModel.rank,
                         imgUrl: rModel.imgUrl,
@@ -162,12 +193,14 @@ class _ManageRestaurantsState extends State<ManageRestaurants> {
                   initialValue: restaurantFields[kRestaurantDesiredOrders],
                   onSaved: (val) {
                     rModel = RestaurantModel(
-                        rank: rModel.rank,
-                        imgUrl: rModel.imgUrl,
-                        desiredOrders: val,
-                        deliveryTime: rModel.deliveryTime,
-                        category: rModel.category,
-                        id: rModel.id);
+                      restaurant: rModel.restaurant,
+                      rank: rModel.rank,
+                      imgUrl: rModel.imgUrl,
+                      desiredOrders: val,
+                      deliveryTime: rModel.deliveryTime,
+                      category: rModel.category,
+                      id: rModel.id,
+                    );
                   },
                   onFieldSubmitted: (_) {
                     FocusScope.of(context).requestFocus(imgUrlNode);
@@ -187,6 +220,7 @@ class _ManageRestaurantsState extends State<ManageRestaurants> {
                   initialValue: restaurantFields[kRestaurantRank].toString(),
                   onSaved: (val) {
                     rModel = RestaurantModel(
+                        restaurant: rModel.restaurant,
                         rank: double.parse(val),
                         category: rModel.category,
                         id: rModel.id,
@@ -213,6 +247,7 @@ class _ManageRestaurantsState extends State<ManageRestaurants> {
                   },
                   onSaved: (val) {
                     rModel = RestaurantModel(
+                        restaurant: rModel.restaurant,
                         rank: rModel.rank,
                         category: rModel.category,
                         id: rModel.id,

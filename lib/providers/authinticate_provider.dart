@@ -96,13 +96,12 @@ class Autheticate with ChangeNotifier {
   Future<void> signout(BuildContext context)async{
     try {
       await _auth.signOut();
-      Navigator.of(context).pushNamed(SignupScreen.nameRoute);
+      notifyListeners();
     }catch(e){
       Scaffold.of(context).showSnackBar(SnackBar(
         content: Text("you can't log out"),
       ));
     }
-  notifyListeners();
 
 }
 

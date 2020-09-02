@@ -1,4 +1,3 @@
-import 'dart:io';
 
 class ImagaSqlite {
   String id;
@@ -10,9 +9,8 @@ class ImagaSqlite {
     Map<String, dynamic> map = {"idd": id, "imageNamee": imageName};
     return map;
   }
-
   ImagaSqlite.fromMap(Map<String, dynamic> json) {
-    id = json["id"];
-    imageName = json["imageName"];
+    id = json["idd"];
+    imageName = json["imageNamee"];
   }
 }
