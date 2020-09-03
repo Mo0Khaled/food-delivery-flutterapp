@@ -15,7 +15,7 @@ class RestaurantsOverview extends StatefulWidget {
 class _RestaurantsOverviewState extends State<RestaurantsOverview> {
   Widget build(BuildContext context) {
     final provider = Provider.of<RestaurantProvider>(context);
-    List<String> myList = ['drinks', 'any thig', 'dwid', 'mqekjdf', 'efiofeio'];
+    List<String> myList = ['Burger', 'Kfc', 'dwid', 'mqekjdf', 'efiofeio'];
     return Scaffold(
       body: SafeArea(
         child: Column(

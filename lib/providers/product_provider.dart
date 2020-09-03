@@ -1,5 +1,6 @@
 import 'package:delivery_food/models/product_model.dart';
 import 'package:delivery_food/network/apis.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -11,18 +12,30 @@ class ProductProvider with ChangeNotifier {
 
   List<ProductModel> get products => _products;
 
+  List<String> _category = [];
+
+  List<String> get category => _category;
+
+  List<String> _restaurant = [];
+
+  List<String> get restaurant => _restaurant;
+
   ProductModel findById(String id) =>
       _products.firstWhere((prod) => prod.id == id);
 
-  List<ProductModel> filterByRestaurant(String name){
+  List<ProductModel> filterByRestaurant(String name) {
     return _products.where((cat) => cat.restaurantName.contains(name)).toList();
   }
+
   Future<List<ProductModel>> fetchProducts() async {
     var response = await _api.getDataCollection();
     _products = response.docs
-        .map((doc) => ProductModel.fromMap(doc.data(), doc.id))
+        .map((doc) {
+        return ProductModel.fromMap(doc.data(), doc.id);
+
+    })
         .toList();
-    // notifyListeners();
+    notifyListeners();
     return _products;
   }
 
@@ -50,28 +63,39 @@ class ProductProvider with ChangeNotifier {
   }
 
   Future deleteProduct(String id) async {
-      await _api.removeDoc(id);
-      // notifyListeners();
-    return ;
-  }
-  List<String> _category = [];
-
-  List<String> get category => _category;
-
-  Future fetchCategories()async{
-   FirebaseFirestore firestore = FirebaseFirestore.instance;
-   List<String> result = [];
-  await firestore.collection('restaurants').get().then((data) {
-     for(var doc in data.docs ){
-       var snapshot = doc.data();
-
-       result.add(snapshot['category']);
-     }
-   });
-   _category = result.toList();
-   print(_category);
-   return _category;
+    await _api.removeDoc(id);
+    // notifyListeners();
+    return;
   }
 
+  Future fetchCategories() async {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    FirebaseAuth auth = FirebaseAuth.instance;
+    List<String> result = [];
+    await firestore.collection('restaurants').get().then((data) {
+      for (var doc in data.docs) {
+        var snapshot = doc.data();
+        if (snapshot['creator_id'] == auth.currentUser.uid)
+          result.add(snapshot['category']);
+      }
+    });
+    _category = result.toList();
+    return _category;
+  }
 
+  Future fetchRestaurant() async {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    FirebaseAuth auth = FirebaseAuth.instance;
+    List<String> result = [];
+    await firestore.collection('restaurants').get().then((data) {
+      for (var doc in data.docs) {
+        var snapshot = doc.data();
+        if (snapshot['creator_id'] == auth.currentUser.uid) {
+          result.add(snapshot['restaurant_name']);
+        }
+      }
+    });
+    _restaurant = result.toList();
+    return _restaurant;
+  }
 }

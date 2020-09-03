@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
         onPageChanged: changePage,
         children: [
           RestaurantsOverview(),
-          AdminProductScreen(),
+          AdminRestaurantScreen(),
           CartScreen(),
           UserProfile()
         ],

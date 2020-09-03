@@ -103,7 +103,8 @@ class _MangeProductsScreenState extends State<MangeProductsScreen> {
     }
     Navigator.of(context).pop();
   }
-  String initialVal = "";
+  String initialValCategory = "";
+  String initialValRes = "";
   @override
   Widget build(BuildContext context) {
     final categoryPro = Provider.of<ProductProvider>(context);
@@ -213,7 +214,7 @@ class _MangeProductsScreenState extends State<MangeProductsScreen> {
                 builder:(context,snapshot){
                     // initialVal = categoryPro.category.first;
                   return DropdownButton<String>(
-                    value: initialVal == "" ? initialVal = categoryPro.category.first: initialVal,
+                    value: initialValCategory == "" ? initialValCategory = categoryPro.category.first: initialValCategory,
                     items: categoryPro.category.map((e) {
                       return DropdownMenuItem<String>(
                         value: e,
@@ -222,7 +223,7 @@ class _MangeProductsScreenState extends State<MangeProductsScreen> {
                     }).toList(),
                     onChanged: (String newValue) {
                       setState(() {
-                        initialVal = newValue;
+                        initialValCategory = newValue;
                         _makeProducts = ProductModel(
                           id: _makeProducts.id,
                           title: _makeProducts.title,
@@ -230,7 +231,7 @@ class _MangeProductsScreenState extends State<MangeProductsScreen> {
                           description: _makeProducts.description,
                           calories: _makeProducts.calories,
                           imgUrl: _makeProducts.imgUrl,
-                          categoryName: initialVal,
+                          categoryName: initialValCategory,
                           restaurantName: _makeProducts.restaurantName,
                         );
                       });
@@ -238,33 +239,67 @@ class _MangeProductsScreenState extends State<MangeProductsScreen> {
                   );
                 }
               ),
-              TextFormField(
-                initialValue: _initValue['restaurantName'],
-                textInputAction: TextInputAction.next,
-                decoration: InputDecoration(
-                    hintText: "Restaurant Name", border: OutlineInputBorder()),
-                onFieldSubmitted: (_) {
-                  FocusScope.of(context).requestFocus(_descriptionFoucsNode);
-                },
-                validator: (val) {
-                  if (val.isEmpty) {
-                    return "Please Enter a Restaurant Name";
+
+              FutureBuilder(
+                  future: categoryPro.fetchRestaurant(),
+                  builder:(context,snapshot){
+                    // initialVal = categoryPro.category.first;
+                    return DropdownButton<String>(
+                      value: initialValRes == "" ? initialValRes = categoryPro.restaurant.first: initialValRes,
+                      items: categoryPro.restaurant.map((e) {
+                        return DropdownMenuItem<String>(
+                          value: e,
+                          child: Text(e),
+                        );
+                      }).toList(),
+                      onChanged: (String newValue) {
+                        setState(() {
+                          initialValRes = newValue;
+                          _makeProducts = ProductModel(
+                            id: _makeProducts.id,
+                            title: _makeProducts.title,
+                            price: _makeProducts.price,
+                            description: _makeProducts.description,
+                            calories: _makeProducts.calories,
+                            imgUrl: _makeProducts.imgUrl,
+                            categoryName: _makeProducts.categoryName,
+                            restaurantName: initialValRes,
+                          );
+                        });
+                      },
+                    );
                   }
-                  return null;
-                },
-                onSaved: (exValue) {
-                  _makeProducts = ProductModel(
-                    id: _makeProducts.id,
-                    title: _makeProducts.title,
-                    price: _makeProducts.price,
-                    description: _makeProducts.description,
-                    calories:_makeProducts.calories,
-                    imgUrl: _makeProducts.imgUrl,
-                    categoryName: _makeProducts.categoryName,
-                    restaurantName: exValue,
-                  );
-                },
               ),
+
+
+
+              // TextFormField(
+              //   initialValue: _initValue['restaurantName'],
+              //   textInputAction: TextInputAction.next,
+              //   decoration: InputDecoration(
+              //       hintText: "Restaurant Name", border: OutlineInputBorder()),
+              //   onFieldSubmitted: (_) {
+              //     FocusScope.of(context).requestFocus(_descriptionFoucsNode);
+              //   },
+              //   validator: (val) {
+              //     if (val.isEmpty) {
+              //       return "Please Enter a Restaurant Name";
+              //     }
+              //     return null;
+              //   },
+              //   onSaved: (exValue) {
+              //     _makeProducts = ProductModel(
+              //       id: _makeProducts.id,
+              //       title: _makeProducts.title,
+              //       price: _makeProducts.price,
+              //       description: _makeProducts.description,
+              //       calories:_makeProducts.calories,
+              //       imgUrl: _makeProducts.imgUrl,
+              //       categoryName: _makeProducts.categoryName,
+              //       restaurantName: exValue,
+              //     );
+              //   },
+              // ),
               TextFormField(
                 initialValue: _initValue['description'],
                 maxLines: 3,

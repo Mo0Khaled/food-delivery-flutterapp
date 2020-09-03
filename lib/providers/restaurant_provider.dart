@@ -1,6 +1,7 @@
 import 'package:delivery_food/constants.dart';
 import 'package:delivery_food/models/restaurant_model.dart';
 import 'package:delivery_food/screens/admin_restaurant_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -19,14 +20,18 @@ class RestaurantProvider with ChangeNotifier {
   }
 
   void addRestaurant(RestaurantModel restaurant, BuildContext context) async {
-    await _store.collection(kRestaurantsCollection).add({
-      'restaurant_name': restaurant.restaurant,
-      kRestaurantCategory: restaurant.category,
-      kRestaurantDeliveryTime: restaurant.deliveryTime,
-      kRestaurantImgUrl: restaurant.imgUrl,
-      kRestaurantDesiredOrders: restaurant.desiredOrders,
-      kRestaurantRank: restaurant.rank,
-    });
+    FirebaseAuth auth = FirebaseAuth.instance;
+    await _store.collection(kRestaurantsCollection).add(
+      {
+        'restaurant_name': restaurant.restaurant,
+        kRestaurantCategory: restaurant.category,
+        kRestaurantDeliveryTime: restaurant.deliveryTime,
+        kRestaurantImgUrl: restaurant.imgUrl,
+        kRestaurantDesiredOrders: restaurant.desiredOrders,
+        kRestaurantRank: restaurant.rank,
+        'creator_id': auth.currentUser.uid,
+      },
+    );
 
     Navigator.of(context).pushNamed(AdminRestaurantScreen.nameRoute);
   }
@@ -42,13 +47,14 @@ class RestaurantProvider with ChangeNotifier {
       var data = doc.data();
       res.add(
         RestaurantModel(
-            restaurant: data['restaurant_name'],
-            deliveryTime: data[kRestaurantDeliveryTime],
-            imgUrl: data[kRestaurantImgUrl],
-            desiredOrders: data[kRestaurantDesiredOrders],
-            category: data[kRestaurantCategory],
-            rank: data[kRestaurantRank],
-            id: doc.id),
+          restaurant: data['restaurant_name'],
+          deliveryTime: data[kRestaurantDeliveryTime],
+          imgUrl: data[kRestaurantImgUrl],
+          desiredOrders: data[kRestaurantDesiredOrders],
+          category: data[kRestaurantCategory],
+          rank: data[kRestaurantRank],
+          id: doc.id,
+        ),
       );
     }
     _restaurants = res;

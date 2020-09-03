@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 
 class ProductModel {
@@ -21,15 +22,17 @@ class ProductModel {
     @required this.restaurantName,
   });
 
+  FirebaseAuth auth = FirebaseAuth.instance;
+
   ProductModel.fromMap(Map snapshot, String id)
       : id = id ?? "",
         title = snapshot['title'] ?? "",
         price = snapshot['price'] ?? "",
-        description = snapshot['description']?? "",
-        calories = snapshot['calories']?? "",
-        imgUrl = snapshot['imgUrl']?? "",
-        categoryName = snapshot['categoryName']?? "",
-        restaurantName = snapshot['restaurantName']?? "";
+        description = snapshot['description'] ?? "",
+        calories = snapshot['calories'] ?? "",
+        imgUrl = snapshot['imgUrl'] ?? "",
+        categoryName = snapshot['categoryName'] ?? "",
+        restaurantName = snapshot['restaurantName'] ?? "";
 
   toJson() {
     return {
@@ -40,6 +43,7 @@ class ProductModel {
       'imgUrl': imgUrl,
       'categoryName': categoryName,
       'restaurantName': restaurantName,
+      'creator_id': auth.currentUser.uid,
     };
   }
 }
