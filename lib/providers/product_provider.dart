@@ -54,4 +54,24 @@ class ProductProvider with ChangeNotifier {
       // notifyListeners();
     return ;
   }
+  List<String> _category = [];
+
+  List<String> get category => _category;
+
+  Future fetchCategories()async{
+   FirebaseFirestore firestore = FirebaseFirestore.instance;
+   List<String> result = [];
+  await firestore.collection('restaurants').get().then((data) {
+     for(var doc in data.docs ){
+       var snapshot = doc.data();
+
+       result.add(snapshot['category']);
+     }
+   });
+   _category = result.toList();
+   print(_category);
+   return _category;
+  }
+
+
 }

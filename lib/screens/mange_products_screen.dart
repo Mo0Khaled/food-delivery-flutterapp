@@ -42,6 +42,7 @@ class _MangeProductsScreenState extends State<MangeProductsScreen> {
   @override
   void initState() {
     _imgFoucsNode.addListener(_upDateImageUrl);
+    Provider.of<ProductProvider>(context,listen: false);
     super.initState();
   }
   @override
@@ -102,8 +103,10 @@ class _MangeProductsScreenState extends State<MangeProductsScreen> {
     }
     Navigator.of(context).pop();
   }
+  String initialVal = "";
   @override
   Widget build(BuildContext context) {
+    final categoryPro = Provider.of<ProductProvider>(context);
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -204,32 +207,36 @@ class _MangeProductsScreenState extends State<MangeProductsScreen> {
                   );
                 },
               ),
-              TextFormField(
-                initialValue: _initValue['categoryName'],
-                textInputAction: TextInputAction.next,
-                decoration: InputDecoration(
-                    hintText: "Category Name", border: OutlineInputBorder()),
-                onFieldSubmitted: (_) {
-                  FocusScope.of(context).requestFocus(_restaurantFoucsNode);
-                },
-                validator: (val) {
-                  if (val.isEmpty) {
-                    return "Please Enter a Category Name";
-                  }
-                  return null;
-                },
-                onSaved: (exValue) {
-                  _makeProducts = ProductModel(
-                    id: _makeProducts.id,
-                    title: _makeProducts.title,
-                    price: _makeProducts.price,
-                    description: _makeProducts.description,
-                    calories:_makeProducts.calories,
-                    imgUrl: _makeProducts.imgUrl,
-                    categoryName: exValue,
-                    restaurantName: _makeProducts.restaurantName,
+
+              FutureBuilder(
+                future: categoryPro.fetchCategories(),
+                builder:(context,snapshot){
+                    // initialVal = categoryPro.category.first;
+                  return DropdownButton<String>(
+                    value: initialVal == "" ? initialVal = categoryPro.category.first: initialVal,
+                    items: categoryPro.category.map((e) {
+                      return DropdownMenuItem<String>(
+                        value: e,
+                        child: Text(e),
+                      );
+                    }).toList(),
+                    onChanged: (String newValue) {
+                      setState(() {
+                        initialVal = newValue;
+                        _makeProducts = ProductModel(
+                          id: _makeProducts.id,
+                          title: _makeProducts.title,
+                          price: _makeProducts.price,
+                          description: _makeProducts.description,
+                          calories: _makeProducts.calories,
+                          imgUrl: _makeProducts.imgUrl,
+                          categoryName: initialVal,
+                          restaurantName: _makeProducts.restaurantName,
+                        );
+                      });
+                    },
                   );
-                },
+                }
               ),
               TextFormField(
                 initialValue: _initValue['restaurantName'],
