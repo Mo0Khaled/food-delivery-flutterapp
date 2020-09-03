@@ -15,7 +15,7 @@ class RestaurantsOverview extends StatefulWidget {
 class _RestaurantsOverviewState extends State<RestaurantsOverview> {
   Widget build(BuildContext context) {
     final provider = Provider.of<RestaurantProvider>(context);
-    List<String> myList = ['drinks', 'ahmed', 'dwid', 'mqekjdf', 'efiofeio'];
+    List<String> myList = ['drinks', 'any thig', 'dwid', 'mqekjdf', 'efiofeio'];
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -81,7 +81,7 @@ class _RestaurantsOverviewState extends State<RestaurantsOverview> {
                       : ListView.builder(
                           itemCount: provider.restaurantsList.length,
                           itemBuilder: (context, i) => RestaurantContainerUi(
-                            title: provider.restaurantsList[i].category,
+                            title: provider.restaurantsList[i].restaurant,
                             rank: provider.restaurantsList[i].rank,
                             imgUrl: provider.restaurantsList[i].imgUrl,
                             desiredMeals:

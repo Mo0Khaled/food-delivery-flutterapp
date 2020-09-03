@@ -23,7 +23,6 @@ class _UserProfileState extends State<UserProfile> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     if(image.imageName != null)
        returnPicture();

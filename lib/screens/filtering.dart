@@ -23,8 +23,11 @@ class Filtering extends StatelessWidget {
               : ListView.builder(
             itemCount: provider.length,
             itemBuilder: (context, i) => RestaurantContainerUi(
+              imgUrl: provider[i].imgUrl,
               title: provider[i].category,
               rank: provider[i].rank,
+              desiredMeals: provider[i].desiredOrders,
+              estimatedTime: provider[i].deliveryTime,
             ),
           ),
         ),

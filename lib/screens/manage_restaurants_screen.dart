@@ -13,6 +13,7 @@ class ManageRestaurants extends StatefulWidget {
 
 class _ManageRestaurantsState extends State<ManageRestaurants> {
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
+  final FocusNode rest = FocusNode();
   final FocusNode imgUrlNode = FocusNode();
   final FocusNode desiredMealsNode = FocusNode();
   final FocusNode deliverTimeNode = FocusNode();
@@ -42,6 +43,7 @@ class _ManageRestaurantsState extends State<ManageRestaurants> {
 
   @override
   void dispose() {
+    rest.dispose();
     imgUrlNode.dispose();
     desiredMealsNode.dispose();
     deliverTimeNode.dispose();
@@ -91,6 +93,7 @@ class _ManageRestaurantsState extends State<ManageRestaurants> {
         content: Text("something went wrong"),
       ));
     }
+    Navigator.of(context).pop();
   }
 
   @override
@@ -100,7 +103,10 @@ class _ManageRestaurantsState extends State<ManageRestaurants> {
         title: Text("add a restaurants"),
         actions: <Widget>[
           IconButton(
-            onPressed: submitTheForm,
+            onPressed: () {
+              submitTheForm();
+              print("object");
+            },
             icon: Icon(Icons.save),
           )
         ],
@@ -123,19 +129,20 @@ class _ManageRestaurantsState extends State<ManageRestaurants> {
                   },
                   onSaved: (val) {
                     rModel = RestaurantModel(
-                        restaurant: val,
-                        category: rModel.category,
-                        id: rModel.id,
-                        deliveryTime: rModel.deliveryTime,
-                        desiredOrders: rModel.desiredOrders,
-                        imgUrl: rModel.imgUrl,
-                        rank: rModel.rank);
+                      restaurant: val,
+                      category: rModel.category,
+                      id: rModel.id,
+                      deliveryTime: rModel.deliveryTime,
+                      desiredOrders: rModel.desiredOrders,
+                      imgUrl: rModel.imgUrl,
+                      rank: rModel.rank,
+                    );
                   },
-//                  onFieldSubmitted: (_) {
-//                    FocusScope.of(context).requestFocus(deliverTimeNode);
-//                  },
+                 onFieldSubmitted: (_) {
+                   FocusScope.of(context).requestFocus(categoryNode);
+                 },
                   textInputAction: TextInputAction.next,
-//                  focusNode: categoryNode,
+                 focusNode: rest,
                   decoration: InputDecoration(labelText: "Restaurant Name"),
                 ),
                 TextFormField(

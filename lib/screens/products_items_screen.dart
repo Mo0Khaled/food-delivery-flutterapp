@@ -10,22 +10,28 @@ import 'package:provider/provider.dart';
 class ProductsItemsScreen extends StatelessWidget {
   static const routeId = 'products';
 
+  Future<void> refresh(BuildContext context) async {
+    await Provider.of<ProductProvider>(context, listen: true).fetchProducts();
+  }
+
   @override
   Widget build(BuildContext context) {
-    // final productId = ModalRoute.of(context).settings.arguments as String;
-    final productProvider = Provider.of<ProductProvider>(context);
+    final productId = ModalRoute.of(context).settings.arguments as String;
+    final filterProducts = Provider.of<ProductProvider>(context, listen: false)
+        .filterByRestaurant(productId);
     return Scaffold(
-        body: FutureBuilder(
-      future: productProvider.fetchProducts(),
-      builder: (context, snapshot) => ListView.builder(
-        itemCount: productProvider.products.length,
-        itemBuilder: (context, index) =>
-            ProductCardItem(productDetails: productProvider.products[index]),
+      body: FutureBuilder(
+        future: refresh(context),
+        builder: (context, snapshot) => ListView.builder(
+          itemCount: filterProducts.length,
+          itemBuilder: (context, index) =>
+              ProductCardItem(productDetails: filterProducts[index]),
+        ),
       ),
-    ));
+    );
   }
 }
-//
+
 // StreamBuilder(
 // stream: productProvider.fetchProductsAsStream(),
 // builder: (context,AsyncSnapshot<QuerySnapshot> snapshot){
