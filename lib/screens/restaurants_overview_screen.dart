@@ -18,31 +18,26 @@ class _RestaurantsOverviewState extends State<RestaurantsOverview> {
     List<String> myList = ['Burger', 'Kfc', 'dwid', 'mqekjdf', 'efiofeio'];
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(icon: Icon(Icons.search),
+        onPressed: ()=>showSearch(
+            context: context, delegate: SearchDelegateThroughList()),),
         elevation: 0,
-        title: Card(
-          elevation: 2,
-          child: GestureDetector(
-              onTap: () {
-                showSearch(
-                    context: context, delegate: SearchDelegateThroughList());
-              },
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: "Search...",
-                  prefixIcon: Icon(Icons.search),
-                  border: InputBorder.none
-                ),
-              )),
+        title: InkWell(
+          onTap: () =>
+             showSearch(
+                context: context, delegate: SearchDelegateThroughList())
+          ,
+          child: Card(
+            elevation: 2,
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: "Search...",
+                prefixIcon: Icon(Icons.search),
+                border: InputBorder.none
+              ),
+            ),
+          ),
         ),
-//        actions: <Widget>[
-//          IconButton(
-//            icon: Icon(Icons.search),
-//            onPressed: () {
-//              showSearch(
-//                  context: context, delegate: SearchDelegateThroughList());
-//            },
-//          )
-//        ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
