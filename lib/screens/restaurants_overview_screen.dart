@@ -21,28 +21,14 @@ class _RestaurantsOverviewState extends State<RestaurantsOverview> {
         elevation: 0,
         title: Card(
           elevation: 2,
-          child: GestureDetector(
-              onTap: () {
-                showSearch(
-                    context: context, delegate: SearchDelegateThroughList());
-              },
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: "Search...",
-                  prefixIcon: Icon(Icons.search),
-                  border: InputBorder.none
-                ),
-              )),
+          child: TextField(
+            onTap: ()=>showSearch(context: context, delegate:SearchDelegateThroughList() ),
+            decoration: InputDecoration(
+                hintText: "Search...",
+                prefixIcon: Icon(Icons.search),
+                border: InputBorder.none),
+          ),
         ),
-//        actions: <Widget>[
-//          IconButton(
-//            icon: Icon(Icons.search),
-//            onPressed: () {
-//              showSearch(
-//                  context: context, delegate: SearchDelegateThroughList());
-//            },
-//          )
-//        ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -135,7 +121,6 @@ class SearchDelegateThroughList extends SearchDelegate {
         onPressed: () => Navigator.of(context).pop(),
       )
     ];
-    throw UnimplementedError();
   }
 
   @override
@@ -144,13 +129,10 @@ class SearchDelegateThroughList extends SearchDelegate {
       icon: Icon(Icons.arrow_back),
       onPressed: () => close(context, null),
     );
-    throw UnimplementedError();
   }
-
   @override
   Widget buildResults(BuildContext context) {
     return null;
-    throw UnimplementedError();
   }
 
   @override
@@ -186,6 +168,5 @@ class SearchDelegateThroughList extends SearchDelegate {
               );
             });
 
-    throw UnimplementedError();
   }
 }
