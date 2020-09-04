@@ -17,85 +17,175 @@ class _RestaurantsOverviewState extends State<RestaurantsOverview> {
     final provider = Provider.of<RestaurantProvider>(context);
     List<String> myList = ['Burger', 'Kfc', 'dwid', 'mqekjdf', 'efiofeio'];
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height * 0.1,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-              child: Container(
-                width: double.infinity,
-                height: MediaQuery.of(context).size.height * 0.04,
-                child: ListView.builder(
-                  itemCount: myList.length,
-                  itemBuilder: (context, index) => Row(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          Navigator.of(context).pushNamed(Filtering.routeId,
-                              arguments: myList[index]);
-                        },
-                        child: Container(
-                          alignment: Alignment.center,
-                          height: 30,
-                          width: 90,
-                          decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: Text(
-                            myList[index],
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                    ],
-                  ),
-                  scrollDirection: Axis.horizontal,
+      appBar: AppBar(
+        elevation: 0,
+        title: Card(
+          elevation: 2,
+          child: GestureDetector(
+              onTap: () {
+                showSearch(
+                    context: context, delegate: SearchDelegateThroughList());
+              },
+              child: TextField(
+                decoration: InputDecoration(
+                  hintText: "Search...",
+                  prefixIcon: Icon(Icons.search),
+                  border: InputBorder.none
                 ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Text(
-                "All",
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-              ),
-            ),
-            Expanded(
-              child: Container(
-                child: FutureBuilder<List<RestaurantModel>>(
-                  future: provider.fetch(),
-                  builder: (context, snapshot) => snapshot.connectionState ==
-                          ConnectionState.waiting
-                      ? Center(
-                          child: CircularProgressIndicator(),
-                        )
-                      : ListView.builder(
-                          itemCount: provider.restaurantsList.length,
-                          itemBuilder: (context, i) => RestaurantContainerUi(
-                            title: provider.restaurantsList[i].restaurant,
-                            rank: provider.restaurantsList[i].rank,
-                            imgUrl: provider.restaurantsList[i].imgUrl,
-                            desiredMeals:
-                                provider.restaurantsList[i].desiredOrders,
-                            estimatedTime:
-                                provider.restaurantsList[i].deliveryTime,
-                          ),
-                        ),
-                ),
-              ),
-            ),
-          ],
+              )),
         ),
+//        actions: <Widget>[
+//          IconButton(
+//            icon: Icon(Icons.search),
+//            onPressed: () {
+//              showSearch(
+//                  context: context, delegate: SearchDelegateThroughList());
+//            },
+//          )
+//        ],
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            child: Container(
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height * 0.05,
+              child: ListView.builder(
+                itemCount: myList.length,
+                itemBuilder: (context, index) => Row(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(Filtering.routeId,
+                            arguments: myList[index]);
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 30,
+                        width: 90,
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow.lerp(BoxShadow(color: Colors.black),
+                                BoxShadow(color: Colors.black), 2)
+                          ],
+                          color: index == 0 ? Colors.black : Colors.white,
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Text(
+                          myList[index],
+                          style: TextStyle(
+                              color: index == 0 ? Colors.white : Colors.black),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                  ],
+                ),
+                scrollDirection: Axis.horizontal,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Text(
+              "All",
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              child: FutureBuilder<List<RestaurantModel>>(
+                future: provider.fetch(),
+                builder: (context, snapshot) =>
+                    snapshot.connectionState == ConnectionState.waiting
+                        ? Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : ListView.builder(
+                            itemCount: provider.restaurantsList.length,
+                            itemBuilder: (context, i) => RestaurantContainerUi(
+                              title: provider.restaurantsList[i].restaurant,
+                              rank: provider.restaurantsList[i].rank,
+                              imgUrl: provider.restaurantsList[i].imgUrl,
+                              desiredMeals:
+                                  provider.restaurantsList[i].desiredOrders,
+                              estimatedTime:
+                                  provider.restaurantsList[i].deliveryTime,
+                            ),
+                          ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
+  }
+}
+
+class SearchDelegateThroughList extends SearchDelegate {
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+        icon: Icon(Icons.clear),
+        onPressed: () => Navigator.of(context).pop(),
+      )
+    ];
+    throw UnimplementedError();
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+      icon: Icon(Icons.arrow_back),
+      onPressed: () => close(context, null),
+    );
+    throw UnimplementedError();
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    return null;
+    throw UnimplementedError();
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    final searchedList = query.isEmpty
+        ? Provider.of<RestaurantProvider>(context, listen: false)
+            .restaurantsList
+        : Provider.of<RestaurantProvider>(context, listen: false)
+            .restaurantsList
+            .where((element) => element.restaurant.contains(query))
+            .toList();
+    return query.isEmpty
+        ? Center(
+            child: Column(
+              children: <Widget>[
+                Image.asset("assets/images/undraw_empty_xct9.png"),
+                Text(
+                  "type to get your desired restaurant!!",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                )
+              ],
+            ),
+          )
+        : ListView.builder(
+            itemCount: searchedList.length,
+            itemBuilder: (context, i) {
+              return ListTile(
+                title: Text(searchedList[i].restaurant),
+                leading: CircleAvatar(
+                  backgroundImage: NetworkImage(searchedList[i].imgUrl),
+                ),
+                subtitle: Text(searchedList[i].rank.toString()),
+              );
+            });
+
+    throw UnimplementedError();
   }
 }

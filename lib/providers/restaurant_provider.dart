@@ -29,7 +29,7 @@ class RestaurantProvider with ChangeNotifier {
         kRestaurantImgUrl: restaurant.imgUrl,
         kRestaurantDesiredOrders: restaurant.desiredOrders,
         kRestaurantRank: restaurant.rank,
-        'creator_id': auth.currentUser.uid,
+        'creator_id': null,
       },
     );
 

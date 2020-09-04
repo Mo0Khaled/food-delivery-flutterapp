@@ -5,7 +5,7 @@ class RestaurantModel {
   final double rank;
   final String imgUrl;
   final String deliveryTime;
-  final String desiredOrders;
+  final List desiredOrders;
 
   RestaurantModel({
     this.id,

@@ -73,7 +73,7 @@ class Autheticate with ChangeNotifier {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
       saveUserIdInSharedPreference();
-      Navigator.of(context).pushNamed(HomePage.routeId);
+      Navigator.of(context).pushReplacementNamed(HomePage.routeId);
       notifyListeners();
     } catch (error) {
       print(error);

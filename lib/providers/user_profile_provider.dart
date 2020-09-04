@@ -9,28 +9,20 @@ class UserProfileProvider with ChangeNotifier {
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseFirestore _store = FirebaseFirestore.instance;
   UserData user = UserData();
-   File image;
+  File image;
 
   fetchUserData() async {
-    try{
+    try {
       var uId = _auth.currentUser.uid;
-     await _store
-          .collection(kUsersCollection)
-          .doc(uId)
-          .get()
-          .then((doc) {
+      await _store.collection(kUsersCollection).doc(uId).get().then((doc) {
         user = UserData(
             email: doc.data()[kUserEmail],
             phoneNumber: doc.data()[kUserPhoneNumber],
             userName: doc.data()[kUserName]);
         return user;
-
       });
-    }catch(e){
+    } catch (e) {
       print(e);
-      }
-
+    }
   }
-
-
 }

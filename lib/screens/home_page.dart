@@ -4,9 +4,12 @@ import 'package:delivery_food/screens/cart_screen.dart';
 import 'package:delivery_food/screens/mange_products_screen.dart';
 import 'package:delivery_food/screens/products_items_screen.dart';
 import 'package:delivery_food/screens/restaurants_overview_screen.dart';
+import 'package:provider/provider.dart';
 import '../widgets/bottom_navy_bar/bottom_navy_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:delivery_food/screens/user_profile_screen.dart';
+import '../providers/restaurant_provider.dart';
+
 class HomePage extends StatefulWidget {
   static const routeId = "home-page";
 
@@ -59,3 +62,5 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+

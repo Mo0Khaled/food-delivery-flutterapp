@@ -3,6 +3,7 @@ import 'package:delivery_food/models/restaurant_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/restaurant_provider.dart';
+import '../models/textform_model.dart';
 
 class ManageRestaurants extends StatefulWidget {
   static const String routeId = "manage-rest";
@@ -12,6 +13,12 @@ class ManageRestaurants extends StatefulWidget {
 }
 
 class _ManageRestaurantsState extends State<ManageRestaurants> {
+  bool isEditing = false;
+  List textFields = [];
+  TextEditingController _controller = TextEditingController();
+  TextForm textForm = TextForm();
+  List textFormsValues = [];
+
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   final FocusNode rest = FocusNode();
   final FocusNode imgUrlNode = FocusNode();
@@ -34,7 +41,7 @@ class _ManageRestaurantsState extends State<ManageRestaurants> {
     restaurant: "",
     category: "",
     deliveryTime: "",
-    desiredOrders: "",
+    desiredOrders: [],
     imgUrl: "",
     rank: 0,
   );
@@ -49,6 +56,7 @@ class _ManageRestaurantsState extends State<ManageRestaurants> {
     deliverTimeNode.dispose();
     rankNode.dispose();
     categoryNode.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -59,7 +67,6 @@ class _ManageRestaurantsState extends State<ManageRestaurants> {
     if (_isInit) {
       final restaurantId = ModalRoute.of(context).settings.arguments as String;
 
-//      print("hhhh $restaurantId");
       if (restaurantId != null) {
         rModel =
             Provider.of<RestaurantProvider>(context).findById(restaurantId);
@@ -72,6 +79,8 @@ class _ManageRestaurantsState extends State<ManageRestaurants> {
           kRestaurantImgUrl: rModel.imgUrl,
           kRestaurantId: rModel.id
         };
+        print(textFormsValues);
+        isEditing = true;
       }
       _isInit = false;
     }
@@ -82,9 +91,25 @@ class _ManageRestaurantsState extends State<ManageRestaurants> {
     if (_key.currentState.validate()) {
       _key.currentState.save();
       if (rModel.id != null) {
+        rModel = RestaurantModel(
+            deliveryTime: rModel.deliveryTime,
+            restaurant: rModel.restaurant,
+            desiredOrders: textFormsValues,
+            id: rModel.id,
+            rank: rModel.rank,
+            category: rModel.category,
+            imgUrl: rModel.imgUrl);
         Provider.of<RestaurantProvider>(context, listen: false)
             .updateRestaurants(rModel.id, rModel);
       } else {
+        rModel = RestaurantModel(
+            deliveryTime: rModel.deliveryTime,
+            restaurant: rModel.restaurant,
+            desiredOrders: textFormsValues,
+            id: rModel.id,
+            rank: rModel.rank,
+            category: rModel.category,
+            imgUrl: rModel.imgUrl);
         Provider.of<RestaurantProvider>(context, listen: false)
             .addRestaurant(rModel, context);
       }
@@ -105,7 +130,6 @@ class _ManageRestaurantsState extends State<ManageRestaurants> {
           IconButton(
             onPressed: () {
               submitTheForm();
-              print("object");
             },
             icon: Icon(Icons.save),
           )
@@ -117,6 +141,7 @@ class _ManageRestaurantsState extends State<ManageRestaurants> {
           child: Form(
             key: _key,
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 TextFormField(
@@ -138,11 +163,11 @@ class _ManageRestaurantsState extends State<ManageRestaurants> {
                       rank: rModel.rank,
                     );
                   },
-                 onFieldSubmitted: (_) {
-                   FocusScope.of(context).requestFocus(categoryNode);
-                 },
+                  onFieldSubmitted: (_) {
+                    FocusScope.of(context).requestFocus(categoryNode);
+                  },
                   textInputAction: TextInputAction.next,
-                 focusNode: rest,
+                  focusNode: rest,
                   decoration: InputDecoration(labelText: "Restaurant Name"),
                 ),
                 TextFormField(
@@ -197,27 +222,6 @@ class _ManageRestaurantsState extends State<ManageRestaurants> {
                       InputDecoration(labelText: kRestaurantDeliveryTime),
                 ),
                 TextFormField(
-                  initialValue: restaurantFields[kRestaurantDesiredOrders],
-                  onSaved: (val) {
-                    rModel = RestaurantModel(
-                      restaurant: rModel.restaurant,
-                      rank: rModel.rank,
-                      imgUrl: rModel.imgUrl,
-                      desiredOrders: val,
-                      deliveryTime: rModel.deliveryTime,
-                      category: rModel.category,
-                      id: rModel.id,
-                    );
-                  },
-                  onFieldSubmitted: (_) {
-                    FocusScope.of(context).requestFocus(imgUrlNode);
-                  },
-                  textInputAction: TextInputAction.next,
-                  focusNode: desiredMealsNode,
-                  decoration:
-                      InputDecoration(labelText: kRestaurantDesiredOrders),
-                ),
-                TextFormField(
                   validator: (val) {
                     if (val.isEmpty) {
                       return "should not be empty";
@@ -269,6 +273,145 @@ class _ManageRestaurantsState extends State<ManageRestaurants> {
                   textInputAction: TextInputAction.done,
                   decoration: InputDecoration(labelText: kRestaurantImgUrl),
                 ),
+                isEditing
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                "Desired Meals",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 23),
+                              ),
+                              RaisedButton(
+                                color: Colors.black,
+                                child: Text(
+                                  "Edit",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    isEditing = false;
+                                  });
+                                },
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  borderRadius: BorderRadius.circular(6)),
+                              width: double.infinity,
+                              height: 50,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount:
+                                    restaurantFields[kRestaurantDesiredOrders]
+                                        .length,
+                                itemBuilder: (context, i) => Container(
+                                    width: 60,
+                                    height: 10,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(6)),
+                                    margin: const EdgeInsets.all(10),
+                                    child: Text(
+                                      restaurantFields[kRestaurantDesiredOrders]
+                                          [i],
+                                      style: TextStyle(color: Colors.black),
+                                    )
+                                ),
+                              )
+                          ),
+                        ],
+                      )
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          RaisedButton(
+                            onPressed: () {
+                              setState(() {
+                                if(textFields.length==0){
+                                  textFields.add(TextFormField());
+                                }
+                              });
+                            },
+                            child: Text(
+                              "add the desired meals",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 17),
+                            ),
+                          ),
+                          Container(
+                            width: double.infinity,
+                            height: 200,
+                            child: ListView.builder(
+                                itemCount:textFields.length,
+                                itemBuilder: (context, i) {
+                                  return Column(
+                                    children: <Widget>[
+                                      TextFormField(
+                                        onChanged: (val) {
+                                          setState(() {
+                                            textForm.value = val;
+                                          });
+                                        },
+                                        controller: _controller,
+                                      ),
+                                      FlatButton(
+                                          child: Text("add it"),
+                                          onPressed: () {
+                                            setState(() {
+                                              textFormsValues
+                                                  .add(textForm.value);
+                                              _controller.clear();
+                                            });
+                                          }),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(6),
+                                            color: Colors.black),
+                                        width: double.infinity,
+                                        height: 50,
+                                        child: ListView.builder(
+                                            scrollDirection: Axis.horizontal,
+                                            itemCount: textFormsValues.length,
+                                            itemBuilder: (context, i) {
+                                              return Container(
+                                                  margin: EdgeInsets.symmetric(
+                                                      vertical: 6,
+                                                      horizontal: 10),
+                                                  alignment: Alignment.center,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              6),
+                                                      color: Colors.white),
+                                                  width: 50,
+                                                  height: 10,
+                                                  child: Text(
+                                                    textFormsValues[i],
+                                                    style: TextStyle(
+                                                        color: Colors.black),
+                                                  ));
+                                            }),
+                                      )
+                                    ],
+                                  );
+                                }),
+                          ),
+                        ],
+                      )
               ],
             ),
           ),

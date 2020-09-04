@@ -38,7 +38,7 @@ class AdminRestaurantScreen extends StatelessWidget {
                      child: ListView.builder(
                       itemBuilder: (context, i) =>
                          ListTile(leading:Text(rProvider.restaurantsList[i].rank.toString()) ,
-                           title: Text(rProvider.restaurantsList[i].category),
+                           title: Text(rProvider.restaurantsList[i].desiredOrders[i]),
                            trailing: Container(
                              width: MediaQuery.of(context).size.width*0.3,
                            child: Row(

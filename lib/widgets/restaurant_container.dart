@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class RestaurantContainerUi extends StatelessWidget {
   final String title;
   final double rank;
-  final String desiredMeals;
+  final List desiredMeals;
   final String estimatedTime;
   final String imgUrl;
 
@@ -109,7 +109,7 @@ class RestaurantContainerUi extends StatelessWidget {
                         Text(
                           "burger - drinks",
                           overflow: TextOverflow.ellipsis,
-                          semanticsLabel: desiredMeals,
+//                          semanticsLabel: desiredMeals,
                           style: TextStyle(
                             color: Colors.black54,
                           ),

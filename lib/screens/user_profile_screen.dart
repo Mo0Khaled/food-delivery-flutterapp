@@ -24,13 +24,13 @@ class _UserProfileState extends State<UserProfile> {
   @override
   void initState() {
     super.initState();
-    if(image.imageName != null)
        returnPicture();
   }
 
   Future<void> returnPicture() async {
     image = await db
         .getPhoto(FirebaseAuth.instance.currentUser.uid.substring(0, 2));
+    print("${image.imageName} hhh");
     setState(() {
       imageF = image.imageName;
     });
@@ -147,7 +147,7 @@ class _UserProfileState extends State<UserProfile> {
                                 height:
                                     MediaQuery.of(context).size.height * 0.16,
                                 child: CircleAvatar(
-                                  backgroundImage: image.imageName == null
+                                  backgroundImage: imageF == null
                                       ? AssetImage("assets/images/no-user.jpg") : AssetImage(imageF),
                                 ),
                               ),
