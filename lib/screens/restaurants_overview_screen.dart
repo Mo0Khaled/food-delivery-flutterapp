@@ -22,6 +22,7 @@ class _RestaurantsOverviewState extends State<RestaurantsOverview> {
         onPressed: ()=>showSearch(
             context: context, delegate: SearchDelegateThroughList()),),
         elevation: 0,
+<<<<<<< HEAD
         title: InkWell(
           onTap: () =>
              showSearch(
@@ -36,6 +37,16 @@ class _RestaurantsOverviewState extends State<RestaurantsOverview> {
                 border: InputBorder.none
               ),
             ),
+=======
+        title: Card(
+          elevation: 2,
+          child: TextField(
+            onTap: ()=>showSearch(context: context, delegate:SearchDelegateThroughList() ),
+            decoration: InputDecoration(
+                hintText: "Search...",
+                prefixIcon: Icon(Icons.search),
+                border: InputBorder.none),
+>>>>>>> origin
           ),
         ),
       ),
@@ -130,7 +141,6 @@ class SearchDelegateThroughList extends SearchDelegate {
         onPressed: () => Navigator.of(context).pop(),
       )
     ];
-    throw UnimplementedError();
   }
 
   @override
@@ -139,13 +149,10 @@ class SearchDelegateThroughList extends SearchDelegate {
       icon: Icon(Icons.arrow_back),
       onPressed: () => close(context, null),
     );
-    throw UnimplementedError();
   }
-
   @override
   Widget buildResults(BuildContext context) {
     return null;
-    throw UnimplementedError();
   }
 
   @override
@@ -181,6 +188,5 @@ class SearchDelegateThroughList extends SearchDelegate {
               );
             });
 
-    throw UnimplementedError();
   }
 }
