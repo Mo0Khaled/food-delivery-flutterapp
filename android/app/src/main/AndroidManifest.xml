@@ -9,6 +9,8 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="delivery_food"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDVXmPaoj7dr49OnZDAYsocACc0lGg9Aw4"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -26,7 +28,7 @@
               />
             <!-- Displays an Android View that continues showing the launch screen
                  Drawable until Flutter paints its first frame, then this splash
-                 screen fades out. A splash screen is useful to avoid any visual
+                 screen fades out. A splfash screen is useful to avoid any visual
                  gap between the end of Android's launch screen and the painting of
                  Flutter's first frame. -->
             <meta-data
@@ -44,4 +46,6 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 </manifest>

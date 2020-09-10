@@ -24,7 +24,7 @@ class _UserProfileState extends State<UserProfile> {
   @override
   void initState() {
     super.initState();
-       returnPicture();
+    returnPicture();
   }
 
   Future<void> returnPicture() async {
@@ -39,18 +39,19 @@ class _UserProfileState extends State<UserProfile> {
   void picture(BuildContext context) async {
     ImagePicker imagePicker = ImagePicker();
     var imageFile = await imagePicker.getImage(source: ImageSource.gallery);
-    try{
+    try {
       ImageSqlite imagesql = ImageSqlite(
         id: FirebaseAuth.instance.currentUser.uid.substring(0, 2),
-        imageName: imageFile.path ,
+        imageName: imageFile.path,
       );
       setState(() {
         imageF = imageFile.path;
       });
       db.savePhoto(imagesql);
       Navigator.pop(context);
-    }catch(error){
-      Scaffold.of(context).showSnackBar(SnackBar(content: Text("You did\'t picked any Image!")));
+    } catch (error) {
+      Scaffold.of(context).showSnackBar(
+          SnackBar(content: Text("You did\'t picked any Image!")));
       Navigator.pop(context);
     }
   }
@@ -58,7 +59,7 @@ class _UserProfileState extends State<UserProfile> {
   void capture(BuildContext context) async {
     ImagePicker imagePicker = ImagePicker();
     var imageFile = await imagePicker.getImage(source: ImageSource.camera);
-    try{
+    try {
       ImageSqlite imagesql = ImageSqlite(
           id: FirebaseAuth.instance.currentUser.uid.substring(0, 2),
           imageName: imageFile.path);
@@ -67,10 +68,9 @@ class _UserProfileState extends State<UserProfile> {
       });
       db.updateImage(imagesql);
       Navigator.pop(context);
-    }catch(error){
+    } catch (error) {
       print(error);
     }
-
   }
 
   void onButtonClickTap(BuildContext context) {
@@ -84,8 +84,8 @@ class _UserProfileState extends State<UserProfile> {
                 FlatButton(
                   child: Text("pick image"),
                   onPressed: () {
-                      picture(context);
-                  } ,
+                    picture(context);
+                  },
                 ),
                 FlatButton(
                   child: Text("capture image"),
@@ -148,7 +148,8 @@ class _UserProfileState extends State<UserProfile> {
                                     MediaQuery.of(context).size.height * 0.16,
                                 child: CircleAvatar(
                                   backgroundImage: imageF == null
-                                      ? AssetImage("assets/images/no-user.jpg") : AssetImage(imageF),
+                                      ? AssetImage("assets/images/no-user.jpg")
+                                      : AssetImage(imageF),
                                 ),
                               ),
                               Positioned(
