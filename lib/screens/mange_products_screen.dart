@@ -103,8 +103,8 @@ class _MangeProductsScreenState extends State<MangeProductsScreen> {
     }
     Navigator.of(context).pop();
   }
-  String initialValCategory = "";
-  String initialValRes = "";
+  String initialValCategory = "burgers";
+  String initialValRes = "mac";
   @override
   Widget build(BuildContext context) {
     final categoryPro = Provider.of<ProductProvider>(context);

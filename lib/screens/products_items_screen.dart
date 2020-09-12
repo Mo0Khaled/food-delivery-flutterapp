@@ -11,7 +11,7 @@ class ProductsItemsScreen extends StatelessWidget {
   static const routeId = 'products';
 
   Future<void> refresh(BuildContext context) async {
-    await Provider.of<ProductProvider>(context, listen: true).fetchProducts();
+    await Provider.of<ProductProvider>(context, listen: false).fetchProducts();
   }
 
   @override

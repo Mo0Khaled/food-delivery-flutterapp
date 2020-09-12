@@ -1,3 +1,4 @@
+import 'package:delivery_food/delivery_boy/map_page.dart';
 import 'package:delivery_food/locator.dart';
 import 'package:delivery_food/providers/authinticate_provider.dart';
 import 'package:delivery_food/providers/cart_provider.dart';
@@ -78,7 +79,7 @@ class FoodDelivery extends StatelessWidget {
               iconTheme: IconThemeData(color: Colors.black),
             ),
           ),
-          // home: auth.isUserHere ? ProductsItemsScreen() :OnBoardingScreen()
+          // home:MapPage() ,
           home: home,
           routes: {
             HomePage.routeId: (context) => HomePage(),

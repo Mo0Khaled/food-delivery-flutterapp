@@ -55,6 +55,7 @@ class RestaurantContainerUi extends StatelessWidget {
                         ),
                         Text(
                           estimatedTime,
+                          overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.center,
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
