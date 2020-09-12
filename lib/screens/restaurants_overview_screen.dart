@@ -18,15 +18,23 @@ class _RestaurantsOverviewState extends State<RestaurantsOverview> {
     List<String> myList = ['Burger', 'Kfc', 'dwid', 'mqekjdf', 'efiofeio'];
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.search),
+          onPressed: () => showSearch(
+              context: context, delegate: SearchDelegateThroughList()),
+        ),
         elevation: 0,
-        title: Card(
-          elevation: 2,
-          child: TextField(
-            onTap: ()=>showSearch(context: context, delegate:SearchDelegateThroughList() ),
-            decoration: InputDecoration(
-                hintText: "Search...",
-                prefixIcon: Icon(Icons.search),
-                border: InputBorder.none),
+        title: InkWell(
+          onTap: () => showSearch(
+              context: context, delegate: SearchDelegateThroughList()),
+          child: Card(
+            elevation: 2,
+            child: TextField(
+              decoration: InputDecoration(
+                  hintText: "Search...",
+                  prefixIcon: Icon(Icons.search),
+                  border: InputBorder.none),
+            ),
           ),
         ),
       ),
@@ -130,6 +138,7 @@ class SearchDelegateThroughList extends SearchDelegate {
       onPressed: () => close(context, null),
     );
   }
+
   @override
   Widget buildResults(BuildContext context) {
     return null;
@@ -167,6 +176,5 @@ class SearchDelegateThroughList extends SearchDelegate {
                 subtitle: Text(searchedList[i].rank.toString()),
               );
             });
-
   }
 }

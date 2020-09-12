@@ -3,28 +3,33 @@ import 'package:delivery_food/models/cart_model.dart';
 import 'package:delivery_food/models/order_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:location/location.dart';
 
 class OrderProvider with ChangeNotifier {
   List<OrderItemModel> _orders = [];
 
   List<OrderItemModel> get orders => _orders;
+  LocationData coordinates;
 
   Future fetchOrders() async {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     FirebaseAuth auth = FirebaseAuth.instance;
     final List<OrderItemModel> getOrders = [];
-    var documents = await firestore.collection("orders").where(
-        "id", isEqualTo: auth.currentUser.uid)
+    var documents = await firestore
+        .collection("orders")
+        .where("id", isEqualTo: auth.currentUser.uid)
         .get();
     for (var document in documents.docs) {
       print(document.data());
       getOrders.add(OrderItemModel(
+//          idToken: null,
+//          latitude:document.data()["lat"] ,
+//          longitude: document.data()["long"],
           amount: document.data()["amount"],
           id: document.id,
           dateTime: DateTime.parse(document.data()['dateTime']),
           productsToOrder: (document.data()["products"] as List<dynamic>)
-              .map((product) =>
-              CartItemModel(
+              .map((product) => CartItemModel(
                   id: product["id"],
                   price: product["price"],
                   title: product["title"],
@@ -35,7 +40,6 @@ class OrderProvider with ChangeNotifier {
     _orders = getOrders.reversed.toList();
     notifyListeners();
   }
-
 
 //
 //  Future fetchOrders() async {
@@ -90,21 +94,22 @@ class OrderProvider with ChangeNotifier {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     FirebaseAuth auth = FirebaseAuth.instance;
     await firestore.collection("orders").doc().set({
-      "id":auth.currentUser.uid,
+//      "idToken":null,
+//      "lat":coordinates.latitude,
+//      "long":coordinates.longitude,
+      "id": auth.currentUser.uid,
       'amount': total,
       'dateTime': DateTime.now().toIso8601String(),
       'products': cartProducts
-          .map((cp) =>
-      {
-        'id': cp.id,
-        'title': cp.title,
-        'price': cp.price,
-        'quantity': cp.quantity,
-        'img': cp.img,
-      })
+          .map((cp) => {
+                'id': cp.id,
+                'title': cp.title,
+                'price': cp.price,
+                'quantity': cp.quantity,
+                'img': cp.img,
+              })
           .toList(),
     });
-
 
 //  Future<void> addOrder(List<CartItemModel> cartProducts, double total) async {
 //    FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -129,4 +134,3 @@ class OrderProvider with ChangeNotifier {
 //    notifyListeners();
   }
 }
-

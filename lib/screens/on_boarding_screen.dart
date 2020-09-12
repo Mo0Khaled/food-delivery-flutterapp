@@ -37,7 +37,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              SizedBox(height:MediaQuery.of(context).size.height *0.1 ,),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.1,
+              ),
               Container(
                 width: double.infinity,
                 height: MediaQuery.of(context).size.height * 0.5,
